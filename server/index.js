@@ -1,10 +1,10 @@
-import express from 'express'
+import express, { json } from 'express'
+import clientRoutes from './routes/clientRoutes.js';
 const app = express()
-const port = 3000
+app.use(json());
+const port = 3000 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.use('/client', clientRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
