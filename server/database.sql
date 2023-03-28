@@ -1,4 +1,4 @@
-CREATE DATABASE restaurante
+CREATE DATABASE restaurant
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
@@ -8,59 +8,65 @@ CREATE DATABASE restaurante
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
 
-CREATE TABLE clientes (
+CREATE TABLE client (
 	id SERIAL PRIMARY KEY,
-	nombre VARCHAR(50) NOT NULL,
-	apellido_paterno  VARCHAR(50) NOT NULL,
-	apellido_materno VARCHAR(50) NOT NULL,
-	correo VARCHAR(50) NOT NULL,
-	telefono VARCHAR(10),
-	fecha_de_nacimiento DATE
+	client_name VARCHAR(50) NOT NULL,
+	lastName  VARCHAR(50) NOT NULL,
+	middleName VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	tel VARCHAR(10),
+	birth_date DATE
 );
 
-CREATE TABLE administrador (
+CREATE TABLE administrator (
 	id SERIAL PRIMARY KEY,
-    id_direccion SERIAL FOREIGN KEY NOT NULL,
+    id_address SERIAL FOREIGN KEY NOT NULL,
 	nombre VARCHAR(50) NOT NULL,
-	apellido_paterno  VARCHAR(50) NOT NULL,
-	apellido_materno VARCHAR(50) NOT NULL,
-	correo VARCHAR(50) NOT NULL,
-	telefono VARCHAR(10) NOT NULL,
-	fecha_de_nacimiento DATE NOT NULL
+	lastName  VARCHAR(50) NOT NULL,
+	middleName VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	tel VARCHAR(10) NOT NULL,
+	birth_date DATE NOT NULL
 );
 
-CREATE TABLE admin_direccion (
+CREATE TABLE admin_address (
     id SERIAL PRIMARY KEY, 
-    calle VARCHAR(20) NOT NULL,
-    colonia VARCHAR(20) NOT NULL,
-    numero_casa VARCHAR(5) NOT NULL,
-    codigo_postal INT NOT NULL,
+    street_name VARCHAR(20) NOT NULL,
+    neighborhood_name VARCHAR(20) NOT NULL,
+    residence_number VARCHAR(5) NOT NULL,
+    postal_code INT NOT NULL,
 )
 
-CREATE TABLE platillo (
+CREATE TABLE dish (
 	id SERIAL PRIMARY KEY,
-    id_pedido SERIAL FOREIGN KEY NOT NULL,
-	nombre VARCHAR(30) NOT NULL,
-	descripcion VARCHAR(255) NOT NULL,
-	precio int,
-	tiempo_preparacion INTERVAL NOT NULL 
+	dish_name VARCHAR(30) NOT NULL,
+	dish_description VARCHAR(255) NOT NULL,
+	dish_price int,
 );
 
-CREATE TABLE pedido (
+CREATE TABLE order (
 	id SERIAL PRIMARY KEY,
-	id_cliente SERIAL FOREIGN KEY NOT NULL,
-	fecha DATE NOT NULL,
-	total int NOT NULL
+	id_client SERIAL FOREIGN KEY NOT NULL,
+	order_date DATE NOT NULL,
+	bill int NOT NULL
 );
 
-CREATE TABLE carrito (
+CREATE TABLE order_detail (
+	id SERIAL PRIMARY KEY,
+	id_order SERIAL FOREIGN KEY NOT NULL,
+	unitary_price FLOAT NOT NULL,
+	amount INT NOT NULL,
+	subtotal FLOAT NOT NULL
+)
+
+CREATE TABLE cart (
     id SERIAL PRIMARY KEY,
-    id_cliente SERIAL FOREIGN KEY NOT NULL,
+    id_client SERIAL FOREIGN KEY NOT NULL,
     id_items SERIAL FOREIGN KEY NOT NULL,
 )
 
-CREATE TABLE carrito_items (
+CREATE TABLE cart_items (
     id SERIAL PRIMARY KEY,
-    id_carrito SERIAL FOREIGN KEY NOT NULL,
-    id_platillo SERIAL FOREIGN KEY NOT NULL
+    id_cart SERIAL FOREIGN KEY NOT NULL,
+    id_dish SERIAL FOREIGN KEY NOT NULL
 )
