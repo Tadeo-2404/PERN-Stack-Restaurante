@@ -1,15 +1,14 @@
 import express from 'express';
+import { login_client } from '../controllers/ClientController.js';
 const router = express.Router();
 
 /* ---  PUBLIC AREA --- */
 //login (allows user to login)
-router.post("/", (req, res) => {
-    res.json({msg: "login"})
-})
+router.post("/", login_client)
 
 //create account (creates new account)
 router.post('/register', (req, res) => {
-    res.json({msg: "register"});
+    res.json(req.body);
 });
 
 //confirm account (confirm user account)
