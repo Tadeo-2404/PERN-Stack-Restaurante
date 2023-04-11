@@ -8,11 +8,6 @@ class Administrator extends Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            id_direccion: {
-                type: Sequelize.INTEGER,
-                primaryKey: true,
-                autoIncrement: true
-            },
             nombre: {
                 type: DataTypes.STRING,
                 allowNull: false
@@ -42,6 +37,7 @@ class Administrator extends Model {
 
     static associate(models) {
         Administrator.hasOne(models.administrator_direccion);
+        Administrator.belongsTo(models.administrador_direccion, {foreignKey: 'id'});
     }
 }
 

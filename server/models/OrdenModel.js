@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 
-class Platillo extends Model {
+class Orden extends Model {
     static init(sequelize) {
         return super.init({
             id: {
@@ -8,27 +8,24 @@ class Platillo extends Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            nombre_platillo: {
-                type: DataTypes.STRING,
-                allowNull: false
-            },
-            descripcion_platillo: {
+            descripcion_Orden: {
                 type: DataTypes.TEXT,
                 allowNull: false
             },
-            precio_platillo: {
+            precio_Orden: {
                 type: DataTypes.FLOAT,
                 allowNull: false
             },
         }, {
             sequelize,
-            tableName: 'Platillo',
-            modelName: 'Platillo',
+            tableName: 'Orden',
+            modelName: 'Orden',
         });
     }
 
     static associate(models) {
+        Orden.belongsTo(models.cliente, {foreignKey: 'id'});
     }
 }
 
-export default Platillo
+export default Orden

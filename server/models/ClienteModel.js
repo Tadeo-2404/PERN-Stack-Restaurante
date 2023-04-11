@@ -36,8 +36,8 @@ class Client extends Model {
     }
 
     static associate(models) {
-        Client.hasMany(models.Orden);
-        Client.hasOne(models.Carrito);
+        Client.hasMany(models.Orden, {foreignKey: 'id'});
+        Client.hasOne(models.Carrito,  {foreignKey: 'id'});
     }
 }
 

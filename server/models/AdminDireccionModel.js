@@ -32,7 +32,7 @@ class Administrador_Direccion extends Model {
     }
 
     static associate(models) {
-        Administrador_Direccion.hasOne(models.Administrador);
+        Administrador_Direccion.hasOne(models.Administrador, {foreignKey: 'id'});
     }
 }
 
