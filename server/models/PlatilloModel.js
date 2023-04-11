@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 
-class Administrador_Direccion extends Model {
+class Platillo extends Model {
     static init(sequelize) {
         return super.init({
             id: {
@@ -8,32 +8,27 @@ class Administrador_Direccion extends Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            calle: {
+            nombre_platillo: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            colonia: {
-                type: DataTypes.STRING,
+            descripcion_platillo: {
+                type: DataTypes.TEXT,
                 allowNull: false
             },
-            numero_de_casa: {
-                type: DataTypes.STRING,
-                allowNull: false
-            },
-            codigo_postal: {
-                type: DataTypes.STRING,
+            precio_platillo: {
+                type: DataTypes.FLOAT,
                 allowNull: false
             },
         }, {
             sequelize,
-            tableName: 'administrador_direccion',
-            modelName: 'administrador_direccion',
+            tableName: 'Platillo',
+            modelName: 'Platillo',
         });
     }
 
     static associate(models) {
-        Administrador_Direccion.hasOne(models.Administrador, {foreignKey: 'id'});
     }
 }
 
-export default Administrador_Direccion
+export default Platillo
