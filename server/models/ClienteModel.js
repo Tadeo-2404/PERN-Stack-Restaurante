@@ -8,39 +8,36 @@ class Client extends Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            client_name: {
+            nombre: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            lastName: {
+            apellido: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            middlename: {
+            correo: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            email: {
+            telefono: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            tel: {
-                type: DataTypes.STRING,
-                allowNull: false
-            },
-            birthDate: {
+            fecha_de_nacimiento: {
                 type: DataTypes.DATE,
                 defaultValue: DataTypes.NOW,
             }
         }, {
             sequelize,
-            tableName: 'Client',
-            modelName: 'Client',
+            tableName: 'Cliente',
+            modelName: 'Cliente',
         });
     }
 
     static associate(models) {
-        Client.hasMany(models.Order);
+        Client.hasMany(models.Orden);
+        Client.hasOne(models.Carrito);
     }
 }
 
