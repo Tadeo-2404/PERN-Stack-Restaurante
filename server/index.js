@@ -26,7 +26,7 @@ const port = 3000
 //auth db sequelize
 try {
   await sequelize.authenticate(); //autenticar conexion a la base de datos
-  await sequelize.sync({ force: true }).then(() => console.log('Tablas creadas exitosamente')); //sincronizar las tablas
+  await sequelize.sync({ alter: true }).then(() => console.log('Tablas creadas exitosamente')); //sincronizar las tablas
   console.log('BASE DE DATOS CONECTADA Y MODELOS CREADOS');
 } catch (error) {
   console.log(error)
