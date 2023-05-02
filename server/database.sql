@@ -52,7 +52,7 @@ CREATE TABLE orden (
 CREATE TABLE orden_detalle (
 	id SERIAL PRIMARY KEY,
 	id_orden SERIAL FOREIGN KEY NOT NULL,
-	precio_unitario FLOAT NOT NULL,
+	id_platillo SERIAL FOREIGN KEY NOT NULL,
 	cantidad INT NOT NULL,
 	subtotal FLOAT NOT NULL
 )

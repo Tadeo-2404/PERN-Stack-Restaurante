@@ -1,31 +1,35 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
+import Orden_Detalle from './OrdenDetalleModel.js'; //importar Modelo Orden
+import Cliente from './ClienteModel.js';
+import sequelize from '../db/db.js'; //importar conexion db
 
-class Orden extends Model {
-    static init(sequelize) {
-        return super.init({
-            id: {
-                type: Sequelize.INTEGER,
-                primaryKey: true,
-                autoIncrement: true
-            },
-            descripcion_Orden: {
-                type: DataTypes.TEXT,
-                allowNull: false
-            },
-            precio_Orden: {
-                type: DataTypes.FLOAT,
-                allowNull: false
-            },
-        }, {
-            sequelize,
-            tableName: 'Orden',
-            modelName: 'Orden',
-        });
-    }
+class Orden extends Model {}
 
-    static associate(models) {
-        Orden.belongsTo(models.cliente, {foreignKey: 'id'});
-    }
-}
+Orden.init({
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        unique: true
+    },
+    fecha: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    total: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
+}, {
+    sequelize,
+    timestamps: false,
+    tableName: 'Orden',
+    modelName: 'Orden'
+});
 
-export default Orden
+//definir foreing key de pertenencia a Orden
+Orden.hasOne(Cliente, {foreignKey: 'id'}); //una orden tiene un cliente
+Orden.belongsTo(Cliente, {foreignKey: 'id'});// una orden pertenece a un cliente
+Orden.hasMany(Orden_Detalle, {foreignKey: 'id'}); //una orden tiene uno o mas orden_detalle
+
+export default Orden;
