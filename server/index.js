@@ -10,8 +10,8 @@ import cors from 'cors';
 //import client routes
 import clientRoutes from './routes/clientRoutes.js';
 
-//import db connection
-import connection from './db/db.js'; 
+//importar conexion a la base de datos
+import sequelize from './db/db.js'; 
 
 const app = express()
 app.use(cors()); //use cors
@@ -19,10 +19,11 @@ app.use(json()); //use json format
 dotenv.config(); //use env vars
 const port = 3000 
 
-//auth db connection
-try {
-  await connection.authenticate();
-  console.log('db connected');
+//auth db sequelize
+try { 
+  await sequelize.authenticate(); //autenticar conexion a la base de datos
+  await sequelize.sync({alter: true}).then(() => console.log('Tablas creadas exitosamente')); //sincronizar las tablas
+  console.log('BASE DE DATOS CONECTADA Y MODELOS CREADOS');
 } catch (error) {
   console.log(error)
 }
