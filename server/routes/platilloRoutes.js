@@ -13,3 +13,5 @@ router.put('/', editar_platillo);
 
 //ruta para eliminar un platillo
 router.delete('/', eliminar_platillo);
+
+export default router;

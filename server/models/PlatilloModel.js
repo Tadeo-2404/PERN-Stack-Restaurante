@@ -1,5 +1,4 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
-import Orden_Detalle from './OrdenDetalleModel.js';//importar modelo Orden_Detalle
 import sequelize from '../db/db.js'; //importar conexion db
 
 class Platillo extends Model {}
@@ -10,26 +9,23 @@ Platillo.init({
         primaryKey: true,
         autoIncrement: true
     },
-    nombre_platillo: {
+    nombre: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    descripcion_platillo: {
+    descripcion: {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    precio_platillo: {
+    precio: {
         type: DataTypes.FLOAT,
         allowNull: false
     },
 }, {
     sequelize,
     timestamps: false,
-    tableName: 'Platillo',
-    modelName: 'Platillo'
+    tableName: 'platillo',
+    modelName: 'platillo'
 })
-
-//definir foreign keys modelo Platillo
-Platillo.belongsTo(Orden_Detalle, {foreignKey: 'id'}); //un platillo pertenece a una orden_detalle
 
 export default Platillo

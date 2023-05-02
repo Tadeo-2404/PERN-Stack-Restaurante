@@ -1,7 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../db/db.js'; //importar conexion db
-import Orden from './OrdenModel.js'; //importar Modelo Orden
-import Platillo from './PlatilloModel.js';//importar Modelo Platillo
 
 class Orden_Detalle extends Model {}
 
@@ -27,13 +25,8 @@ Orden_Detalle.init({
 }, {
     sequelize,
     timestamps: false,
-    tableName: 'Orden_Detalle',
-    modelName: 'Orden_Detalle'
+    tableName: 'orden_detalle',
+    modelName: 'orden_detalle'
 });
-
-//definir foreing key de Orden_Detalle
-Orden_Detalle.belongsTo(Orden, {foreignKey: 'id'}); //orden_detalle pertenece a una orden
-Orden_Detalle.hasOne(Orden, {foreignKey: 'id'}); //orden_detalle tiene una orden id
-Orden_Detalle.hasOne(Platillo, {foreignKey: 'id'});//orden_detalle tiene un platillo id
 
 export default Orden_Detalle
