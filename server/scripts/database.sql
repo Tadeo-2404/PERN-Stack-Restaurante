@@ -37,16 +37,16 @@ CREATE TABLE administrador_direccion (
 
 CREATE TABLE platillo (
 	id SERIAL PRIMARY KEY,
-	nombre_platillo VARCHAR(30) NOT NULL,
+	nombre_platillo VARCHAR(30) NOT NULL UNIQUE,
 	descripcion_platillo VARCHAR(255) NOT NULL,
-	precio_platillo int,
+	precio_platillo float,
 );
 
 CREATE TABLE orden (
 	id SERIAL PRIMARY KEY,
 	id_cliente SERIAL FOREIGN KEY NOT NULL,
 	fecha_orden DATE NOT NULL,
-	total int NOT NULL
+	total float NOT NULL
 );
 
 CREATE TABLE orden_detalle (

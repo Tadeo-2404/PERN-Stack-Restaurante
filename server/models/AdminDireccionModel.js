@@ -1,6 +1,5 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import sequelize from '../db/db.js'; //importar conexion db
-import Administrator from './AdminModel.js';
 
 class Administrador_Direccion extends Model {}
 
@@ -29,11 +28,8 @@ Administrador_Direccion.init({
 }, {
     sequelize,
     timestamps: false,
-    tableName: 'Administrador_Direccion',
-    modelName: 'Administrador_Direccion'
+    tableName: 'administrador_direccion',
+    modelName: 'administrador_direccion'
 });
 
-//definir foreign keys Administrador_Direccion
-Administrador_Direccion.belongsTo(Administrator, {foreignKey: 'id'});
-
-export default Administrador_Direccion
+export default Administrador_Direccion;

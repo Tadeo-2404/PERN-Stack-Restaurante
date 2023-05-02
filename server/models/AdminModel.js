@@ -1,6 +1,5 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import sequelize from '../db/db.js'; //importar conexion db
-import Administrador_Direccion from './AdminDireccionModel.js';
 
 class Administrador extends Model {}
 
@@ -33,11 +32,8 @@ Administrador.init({
 }, {
     sequelize,
     timestamps: false,
-    tableName: 'Administrador',
-    modelName: 'Administrador'
+    tableName: 'administrador',
+    modelName: 'administrador'
 });
 
-//definir foreign keys modelo Administrador
-Administrador.hasOne(Administrador_Direccion, {foreignKey: 'id'}); //administrador tiene una direccion
-
-export default Administrador
+export default Administrador;
