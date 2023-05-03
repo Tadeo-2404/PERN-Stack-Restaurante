@@ -10,9 +10,10 @@ import dotenv from 'dotenv';
 //import cors
 import cors from 'cors';
 
-//import client routes
-import clientRoutes from './routes/clientRoutes.js';
-import platilloRoutes from './routes/platilloRoutes.js';
+import clientRoutes from './routes/clientRoutes.js'; //rutas cliente
+import platilloRoutes from './routes/platilloRoutes.js'; //rutas platillo
+import ordenRoutes from './routes/ordenRoutes.js'; //rutas orden
+import ordenDetalleRoutes from './routes/ordenDetalleRoutes.js'; //rutas orden_detalle
 
 //importar conexion a la base de datos
 import sequelize from './db/db.js';
@@ -35,6 +36,8 @@ try {
 //using client router
 app.use('/client', clientRoutes);
 app.use('/api/platillo', platilloRoutes);
+app.use('/api/orden', ordenRoutes);
+app.use('/api/orden_detalle', ordenDetalleRoutes);
 
 //listening backend port
 app.listen(port, () => {
