@@ -9,18 +9,21 @@ const crear_platillo = async (req, res) => {
     if(!cadenaRegex.test(nombre) && nombre.length == 0) {
         const error = new Error(`${nombre} no es un nombre valido`);
         res.status(400).json({msg: error.message});
+        return;
     }
 
     //validar descripcion
     if(!cadenaLengthRegex.test(descripcion)) {
         const error = new Error(`${descripcion} no es una descripcion valida`);
         res.status(400).json({msg: error.message});
+        return;
     }
 
     //validar precio
     if(!flotanteRegex.test(precio)) {
         const error = new Error(`${precio} no es un precio valida`);
         res.status(400).json({msg: error.message});
+        return;
     }
 
     //validar que el nombre no exista
@@ -35,10 +38,12 @@ const crear_platillo = async (req, res) => {
         } catch (e) {
             const error = new Error("No se pudo crear el registro de Platilo");
             res.status(400).json({msg: error.message});
+            return;
         }
     } else {
         const error = new Error(`Registro con el nombre: ${nombre} ya existe`);
         res.status(400).json({msg: error.message});
+        return;
     }
 }
 
