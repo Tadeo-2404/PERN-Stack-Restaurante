@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 //import cors
 import cors from 'cors';
 
-import clientRoutes from './routes/clientRoutes.js'; //rutas cliente
+import clienteRoutes from './routes/clienteRoutes.js'; //rutas cliente
 import platilloRoutes from './routes/platilloRoutes.js'; //rutas platillo
 import ordenRoutes from './routes/ordenRoutes.js'; //rutas orden
 import ordenDetalleRoutes from './routes/ordenDetalleRoutes.js'; //rutas orden_detalle
@@ -34,7 +34,7 @@ try {
 }
 
 //using client router
-app.use('/client', clientRoutes);
+app.use('/cliente', clienteRoutes);
 app.use('/api/platillo', platilloRoutes);
 app.use('/api/orden', ordenRoutes);
 app.use('/api/orden_detalle', ordenDetalleRoutes);

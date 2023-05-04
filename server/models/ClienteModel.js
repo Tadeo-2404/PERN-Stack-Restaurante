@@ -1,7 +1,8 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import sequelize from '../db/db.js'; //importar conexion db
+import bcrypt from 'bcrypt';
 
-class Cliente extends Model {}
+class Cliente extends Model { }
 
 Cliente.init({
     id: {
@@ -13,11 +14,11 @@ Cliente.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    apellido: {
+    correo: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    correo: {
+    contrasena: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -35,5 +36,12 @@ Cliente.init({
     tableName: 'cliente',
     modelName: 'cliente'
 });
+
+//hashear contraseña
+Cliente.beforeCreate(async (cliente, options) => {
+    const hash = await bcrypt.hash(cliente.contrasena, 8);
+    cliente.contrasena = hash;
+});
+  
 
 export default Cliente
