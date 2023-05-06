@@ -4,6 +4,7 @@ import Cliente from '../models/ClienteModel.js';
 import Orden from '../models/OrdenModel.js';
 import Orden_Detalle from '../models/OrdenDetalleModel.js';
 import Platillo from '../models/PlatilloModel.js';
+import Credenciales from '../models/CredencialesModel.js';
 
 // definir las asociaciones entre los modelos
 Administrador.hasOne(Administrador_Direccion, {
@@ -33,6 +34,13 @@ Orden_Detalle.belongsTo(Orden, { foreignKey: 'ordenId' }); // orden_detalle pert
 Orden_Detalle.belongsTo(Platillo, { foreignKey: 'platilloId' });
 Platillo.hasMany(Orden_Detalle, { foreignKey: 'platilloId' });
 
+//CLIENTE - CREDENCIALES RELACION
+Cliente.hasOne(Credenciales, {
+  foreignKey: 'clienteId',
+  onDelete: 'CASCADE'
+});
+Credenciales.belongsTo(Cliente, {foreignKey: 'clienteId'});
+
 // exportar los modelos y las asociaciones
 export default {
   Administrador,
@@ -41,4 +49,5 @@ export default {
   Orden,
   Orden_Detalle,
   Platillo,
+  Credenciales
 };
