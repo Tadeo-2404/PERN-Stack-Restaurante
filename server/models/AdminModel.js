@@ -1,7 +1,12 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import sequelize from '../db/db.js'; //importar conexion db
+import bcrypt from 'bcrypt';
 
-class Administrador extends Model {}
+class Administrador extends Model {
+    static async comprobarContrasena(contrasena, contrasenaHasheada) {
+        return bcrypt.compare(contrasena, contrasenaHasheada);
+    }
+}
 
 Administrador.init({
     id: {
@@ -13,11 +18,11 @@ Administrador.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    apellido: {
+    correo: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    correo: {
+    contrasena: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -25,15 +30,18 @@ Administrador.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    fecha_de_nacimiento: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    }
 }, {
     sequelize,
     timestamps: false,
     tableName: 'administrador',
     modelName: 'administrador'
 });
+
+//hashear contraseña
+Administrador.beforeSave(async (administrador) => {
+    const hash = await bcrypt.hash(administrador.contrasena, 10);
+    administrador.contrasena = hash;
+});
+
 
 export default Administrador;

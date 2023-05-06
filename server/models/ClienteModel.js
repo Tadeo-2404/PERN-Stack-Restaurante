@@ -26,24 +26,20 @@ Cliente.init({
         autoIncrement: true
     },
     nombre: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(60),
         allowNull: false
     },
     correo: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(60),
         allowNull: false
     },
     contrasena: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(60),
         allowNull: false
     },
     telefono: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(10),
         allowNull: false
-    },
-    fecha_de_nacimiento: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
     },
 }, {
     sequelize,
@@ -53,15 +49,9 @@ Cliente.init({
 });
 
 //hashear contraseña
-Cliente.beforeCreate(async (cliente) => {
-    const hash = await bcrypt.hash(cliente.contrasena, 8);
-    cliente.contrasena = hash;
-});
-
-//hasear contraseña al realizar cambio
 Cliente.beforeSave(async (cliente) => {
-  const hash = await bcrypt.hash(cliente.contrasena, 8);
-  cliente.contrasena = hash;
+    const hash = await bcrypt.hash(cliente.contrasena, 10);
+    cliente.contrasena = hash;
 });
 
 export default Cliente
