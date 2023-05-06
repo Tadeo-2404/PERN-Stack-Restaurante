@@ -1,9 +1,9 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import sequelize from '../db/db.js'; //importar conexion db
 
-class Credenciales extends Model {}
+class CredencialesAdministrador extends Model {}
 
-Credenciales.init({
+CredencialesAdministrador.init({
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -13,19 +13,15 @@ Credenciales.init({
         type: DataTypes.STRING,
         defaultValue: null
     },
-    confirmado: {
-        type: DataTypes.STRING,
-        defaultValue: null
-    },
     rol: {
         type: DataTypes.STRING,
-        allowNull: false
+        defaultValue: "administrador"
     }
 }, {
     sequelize,
     timestamps: false,
-    tableName: 'credenciales',
-    modelName: 'credenciales'
+    tableName: 'credencialesAdministrador',
+    modelName: 'credencialesAdministrador'
 });
 
-export default Credenciales
+export default CredencialesAdministrador

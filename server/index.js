@@ -1,5 +1,5 @@
 import associations from './db/associations.js';
-const { Administrador, Administrador_Direccion, Cliente, Orden, Orden_Detalle, Platillo, Credenciales } = associations;
+const { Administrador, Cliente, Orden, Orden_Detalle, Platillo, CredencialesCliente, CredencialesAdministrador } = associations;
 import express, { json } from 'express' //importar express and json
 import dotenv from 'dotenv'; //importar env vars
 import cors from 'cors'; //importar cors
@@ -8,6 +8,7 @@ import { eliminarClientesNoConfirmados } from './helpers/cron.js';
 
 //rutas
 import clienteRoutes from './routes/clienteRoutes.js'; //rutas cliente
+import adminRoutes from './routes/adminRoutes.js' //rutas admin
 import platilloRoutes from './routes/platilloRoutes.js'; //rutas platillo
 import ordenRoutes from './routes/ordenRoutes.js'; //rutas orden
 import ordenDetalleRoutes from './routes/ordenDetalleRoutes.js'; //rutas orden_detalle
@@ -19,7 +20,7 @@ const app = express()
 app.use(cors()); //usar cors
 app.use(json()); //usar json format
 app.use(cookieParser());//usar cookieParser
-dotenv.config(); //usar env vars
+dotenv.config({ path: './dev.env' }); //usar env vars
 eliminarClientesNoConfirmados.start(); //iniciar cron 
 const port = 3000
 
@@ -32,8 +33,11 @@ try {
   console.log(error)
 }
 
-//using client router
+//ENTIDADES
 app.use('/cliente', clienteRoutes);
+app.use('/administrador', adminRoutes);
+
+//API
 app.use('/api/platillo', platilloRoutes);
 app.use('/api/orden', ordenRoutes);
 app.use('/api/orden_detalle', ordenDetalleRoutes);

@@ -1,18 +1,24 @@
 import Administrador from '../models/AdminModel.js'
-import Administrador_Direccion from '../models/AdminDireccionModel.js';
 import Cliente from '../models/ClienteModel.js';
 import Orden from '../models/OrdenModel.js';
 import Orden_Detalle from '../models/OrdenDetalleModel.js';
 import Platillo from '../models/PlatilloModel.js';
-import Credenciales from '../models/CredencialesModel.js';
+import CredencialesCliente from '../models/CredencialesClienteModel.js';
+import CredencialesAdministrador from '../models/CrendencialesAdminModel.js';
 
-// definir las asociaciones entre los modelos
-Administrador.hasOne(Administrador_Direccion, {
-  foreignKey: 'adminId', 
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE'
-}); // un administrador tiene una direccion
-Administrador_Direccion.belongsTo(Administrador, { foreignKey: 'adminId' });
+//CLIENTE - CREDENCIALES RELACION
+Cliente.hasOne(CredencialesCliente, {
+  foreignKey: 'clienteId',
+  onDelete: 'CASCADE'
+});
+CredencialesCliente.belongsTo(Cliente, {foreignKey: 'clienteId'});
+
+//ADMINISTRADOR - CREDENCIALES RELACION
+Administrador.hasOne(CredencialesAdministrador, {
+  foreignKey: 'administradorId',
+  onDelete: 'CASCADE'
+});
+CredencialesAdministrador.belongsTo(Administrador, {foreignKey: 'administradorId'});
 
 //CLIENTE - ORDEN RELACION
 Cliente.hasMany(Orden, { 
@@ -34,20 +40,13 @@ Orden_Detalle.belongsTo(Orden, { foreignKey: 'ordenId' }); // orden_detalle pert
 Orden_Detalle.belongsTo(Platillo, { foreignKey: 'platilloId' });
 Platillo.hasMany(Orden_Detalle, { foreignKey: 'platilloId' });
 
-//CLIENTE - CREDENCIALES RELACION
-Cliente.hasOne(Credenciales, {
-  foreignKey: 'clienteId',
-  onDelete: 'CASCADE'
-});
-Credenciales.belongsTo(Cliente, {foreignKey: 'clienteId'});
-
 // exportar los modelos y las asociaciones
 export default {
   Administrador,
-  Administrador_Direccion,
   Cliente,
   Orden,
   Orden_Detalle,
   Platillo,
-  Credenciales
+  CredencialesCliente,
+  CredencialesAdministrador
 };
