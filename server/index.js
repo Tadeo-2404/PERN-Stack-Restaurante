@@ -17,7 +17,11 @@ import ordenDetalleRoutes from './routes/ordenDetalleRoutes.js'; //rutas orden_d
 import sequelize from './db/db.js';
 
 const app = express()
-app.use(cors()); //usar cors
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true // esto permite enviar y recibir cookies a través de CORS
+}));
 app.use(json()); //usar json format
 app.use(cookieParser());//usar cookieParser
 dotenv.config({ path: './dev.env' }); //usar env vars

@@ -27,7 +27,7 @@ const iniciar_sesion = async (req, res) => {
     const credencial = await Credenciales.findOne({ where: { clienteId: cliente.id } });
 
     //validar cuenta no confirmada
-    if (!credencial.confirmado || credencial.token) {
+    if (!credencial.confirmado) {
         const error = new Error("Necesitas confirmar tu cuenta para poder Iniciar Sesion");
         return res.status(404).json({ msg: error.message });
     }
@@ -38,12 +38,9 @@ const iniciar_sesion = async (req, res) => {
         //generar jwt y enviar cookie al frontend
         const token = jwt.sign({ id: cliente.id, rol: credencial.rol }, process.env.SECRET_TOKEN);
         return res
-            .cookie("acceso_token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-            })
+            .cookie("acceso_token", token)
             .status(200)
-            .json({ message: "Bienvenido" });
+            .json({ msg: "Bienvenido" });
     } else {
         const error = new Error("Contraseña no valida");
         return res.status(400).json({ msg: error.message });
@@ -104,7 +101,7 @@ const registrarse = async (req, res) => {
         //crear objeto de credencial para cliente
         const credencial = await Credenciales.create({ clienteId: cliente.id, token: randomToken });
         // await enviarEmail("confirmar cuenta" ,cliente, credencial.token);
-        return res.status(200).json({ msg: `Se ha enviado un correo a '${cliente.correo}' para cambiar tu contraseña` });
+        return res.status(200).json({ msg: `Se ha enviado un correo a '${cliente.correo}' para confirmar tu cuenta` });
     } catch (e) {
         console.log(e);
     }

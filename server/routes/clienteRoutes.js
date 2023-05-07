@@ -4,7 +4,7 @@ import authorization from '../middleware/authorization.js';
 const router = express.Router();
 
 //ruta inciar-sesion
-router.post('/inciar-sesion', iniciar_sesion);
+router.post('/iniciar-sesion', iniciar_sesion);
 
 //ruta para registrarse
 router.post('/registrarse', registrarse);
