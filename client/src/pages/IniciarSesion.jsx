@@ -1,9 +1,8 @@
-import FormularioIniciarSesion from "../../components/cliente/FormularioIniciarSesion"
+import FormularioIniciarSesion from "../components/cliente/FormularioIniciarSesion"
 
 const IniciarSesion = () => {
   return (
     <div>
-        IniciarSesion
         <FormularioIniciarSesion />
     </div>
   )

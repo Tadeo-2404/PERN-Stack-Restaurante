@@ -1,9 +1,8 @@
-import FormularioRegistrarse from "../../components/cliente/FormularioRegistrarse"
+import FormularioRegistrarse from "../components/cliente/FormularioRegistrarse"
 
 const Registrarse = () => {
   return (
     <div>
-        Registrarse
         <FormularioRegistrarse/>
     </div>
   )
