@@ -37,10 +37,7 @@ const iniciar_sesion = async (req, res) => {
         //generar jwt y enviar cookie al frontend
         const token = jwt.sign({ id: administrador.id, rol: credencial.rol }, process.env.SECRET_TOKEN);
         return res
-            .cookie("acceso_token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-            })
+            .cookie("acceso_token", token)
             .status(200)
             .json({ message: "Bienvenido" });
     } else {

@@ -35,8 +35,9 @@ const FormularioIniciarSesion = () => {
         { correo, contrasena },
         tipo
       );
-      alertify.success(data.msg);
-      navigate('/cliente')
+      console.log(data)
+      alertify.success(data.message);
+      navigate(`/${tipo}`)
     } catch (error) {
       alertify.error(error.response.data.msg);
     }

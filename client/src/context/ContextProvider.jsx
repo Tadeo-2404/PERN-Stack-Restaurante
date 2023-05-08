@@ -2,6 +2,8 @@ import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
+import { perfil } from "../api/usuario";
+import { obtener_platillos } from "../api/platillo";
 
 const Context = createContext(null);
 
@@ -10,34 +12,52 @@ const obtenerTipo = () => {
   return path.includes("/cliente") ? "cliente" : "administrador";
 };
 
+
 const ContextProvider = ({ children }) => {
   const [tipo, setTipo] = useState(() => obtenerTipo());
-  const [auth, setAuth] = useState({});
+  const [usuario, setUsuario] = useState({});
+  const [platillos, SetPlatillos] = useState([]);
   const navigate = useNavigate();
+
+  const obtenerPlatillos = async (params) => {
+    const platillos = await obtener_platillos(params);
+    SetPlatillos(platillos);
+  }
 
   useEffect(() => {
     const tipoActual = obtenerTipo();
     if (tipoActual !== tipo) {
-      setTipo(tipoActual);
+      navigate(`/${tipo}/inicio`);
     }
   }, [tipo]);
-
+  
   useEffect(() => {
-    const jwt = Cookies.get('acceso_token');
-    if(!jwt) {
-      navigate(`/${tipo}/iniciar-sesion`);
-      return;
-    }
-    const token = jwt_decode(jwt);
-    setAuth(token);
+    const obtenerCookie = async () => {
+      const jwt = Cookies.get("acceso_token");
+      if(!jwt) {
+        navigate(`/${tipo}/iniciar-sesion`);
+        console.log('no')
+        return;
+      }
+      const token = jwt_decode(jwt);
+      if(token && tipo !== token.rol) {
+        console.log("adios")
+        setTipo(token.rol); 
+        navigate(`/${token.rol}`);
+        return;
+      }
 
-    if(token && tipo !== token.rol) {
-      navigate(`/${token.rol}`);
-      return;
+      const usuario = await perfil(tipo, jwt);
+      setUsuario({id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, telefono: usuario.telefono, rol: token.rol});
     }
+    obtenerCookie();
   }, []);
 
-  return <Context.Provider value={{ tipo, setTipo, auth }}>{children}</Context.Provider>;
+  useEffect(() => {
+    obtenerPlatillos();
+  }, [platillos]);
+  
+  return <Context.Provider value={{ tipo, setTipo, usuario, platillos, SetPlatillos, obtenerPlatillos }}>{children}</Context.Provider>;
 };
 
 export { Context };

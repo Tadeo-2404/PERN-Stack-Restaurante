@@ -10,6 +10,8 @@ import OlvideContraseña from "./pages/OlvideContraseña";
 import RestablecerContraseña from "./pages/RestablecerContraseña";
 import ConfirmarCuenta from "./pages/ConfirmarCuenta";
 import ContextProvider from "./context/ContextProvider";
+import Platillos from "./pages/platillo/Platillos";
+import EditarPlatillo from "./pages/platillo/EditarPlatillo";
 export default function App() {
   return (
     <>
@@ -31,14 +33,11 @@ export default function App() {
               <Route path="iniciar-sesion" element={<IniciarSesion />} />
               <Route path="registrarse" element={<Registrarse />} />
               <Route path="olvide-contrasena" element={<OlvideContraseña />} />
-              <Route
-                path="restablecer-contrasena/:token"
-                element={<RestablecerContraseña />}
-              />
-              <Route
-                path="confirmar-cuenta/:token"
-                element={<ConfirmarCuenta />}
-              />
+              <Route path="restablecer-contrasena/:token" element={<RestablecerContraseña />}/>
+              <Route path="confirmar-cuenta/:token"element={<ConfirmarCuenta />}/>
+
+              <Route path="platillo" element={<Platillos />} />
+              <Route path="platillo/editar-platillo" element={<EditarPlatillo />} />
               <Route path="*" element={<Error404 />} />
             </Route>
             <Route path="*" element={<Error404 />} />

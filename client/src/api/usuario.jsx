@@ -31,12 +31,15 @@ const restablecer_contrasena = async (objeto, tipo, token) => {
     return respuesta.data;
 }
 
-const perfil = async (tipo, token) => {
-    const config = {
-        headers: { Authorization: `Bearer ${token}` }
-    };
+const perfil = async (tipo, jwt) => {
+    const configuration = {
+        headers: {
+          "Content-Type": "application/json", //indicamos que es de tipo JSON
+          Authorization: `Bearer ${jwt}` //usamos bearer token
+        }
+      }
     const url = 'perfil';
-    const respuesta = await axios.post(`${urlBackend}/${tipo}/${url}`, config,  { withCredentials: true });
+    const respuesta = await axios.get('http://localhost:3000/administrador/perfil', configuration);
     return respuesta.data;
 }
 

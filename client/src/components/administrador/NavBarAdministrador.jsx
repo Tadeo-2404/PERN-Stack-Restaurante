@@ -6,10 +6,10 @@ import { useContext } from "react";
 import { Context } from "../../context/ContextProvider";
 
 const NavBarAdministrador = () => {
-  const { auth } = useContext(Context);
+  const { usuario, tipo } = useContext(Context);
   return (
     <>
-      {auth.rol === "administrador" ? (
+      {usuario.rol === "administrador" && tipo === "administrador" ? (
         <div className="bg-orange-500 p-6 text-white uppercase font-bold flex justify-between items-center">
           <div>
             <h1 className="text-2xl">administracion</h1>
@@ -18,7 +18,7 @@ const NavBarAdministrador = () => {
           <div className="grid grid-cols-4 grid-rows-1 justify-between content-center text-center text-sm">
             <div className="flex justify-center items-center p-2">
               <div className="hover:translate-y-1">
-                <Link to="/" className="flex justify-center items-center gap-2">
+                <Link to="/administrador" className="flex justify-center items-center gap-2">
                   <ImHome />
                   <p className="hover:underline">inicio</p>
                 </Link>
@@ -28,7 +28,7 @@ const NavBarAdministrador = () => {
             <div className="flex justify-center items-center p-2">
               <div className="hover:translate-y-1">
                 <Link
-                  to="/platillos"
+                  to="/administrador/platillo"
                   className="flex justify-center items-center gap-2"
                 >
                   <MdFastfood />
@@ -52,7 +52,7 @@ const NavBarAdministrador = () => {
             <div className="flex justify-center items-center p-2">
               <div className="hover:translate-y-1">
                 <Link
-                  to="/perfil"
+                  to="/cerrar-sesion"
                   className="flex justify-center items-center gap-2"
                 >
                   <MdLogout className="text-xl" />
@@ -63,11 +63,11 @@ const NavBarAdministrador = () => {
           </div>
         </div>
       ) : (
-        <div className="bg-orange-500 p-6 text-white uppercase font-bold flex justify-center items-center">
-          <div>
-            <h1 className="text-2xl">administracion</h1>
+          <div className="bg-orange-500 p-6 text-white uppercase font-bold flex justify-center items-center">
+            <div>
+              <h1 className="text-2xl">administracion</h1>
+            </div>
           </div>
-        </div>
       )}
     </>
   );

@@ -10,7 +10,7 @@ class Cliente extends Model {
     static async borrarClientesNoConfirmados() {
         try {
           const query = await sequelize.query(`DELETE FROM "cliente" WHERE "id" IN (
-            SELECT "clienteId" FROM "credenciales" WHERE confirmado IS NULL
+            SELECT "clienteId" FROM "credencialesCliente" WHERE confirmado IS NULL
           )`);
           console.log(query);
         } catch (err) {

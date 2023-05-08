@@ -5,7 +5,7 @@ import { iniciar_sesion, olvide_contrasena, registrarse, restablecer_contrasena 
 const router = express.Router();
 
 //ruta inciar-sesion
-router.post('/inciar-sesion', iniciar_sesion);
+router.post('/iniciar-sesion', iniciar_sesion);
 
 //ruta para registrarse
 router.post('/registrarse', registrarse);

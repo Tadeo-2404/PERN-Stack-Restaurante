@@ -6,10 +6,10 @@ import { useContext } from "react";
 import { Context } from "../../context/ContextProvider";
 
 const NavBarCliente = () => {
-  const { auth } = useContext(Context);
+  const { usuario, tipo } = useContext(Context);
   return (
     <>
-      {auth.rol === "cliente" ? (
+      {usuario.rol === "cliente" && tipo === "cliente" ? (
         <div className="bg-orange-500 p-6 text-white uppercase font-bold flex justify-between items-center">
           <div>
             <h1 className="text-2xl">restaurante</h1>

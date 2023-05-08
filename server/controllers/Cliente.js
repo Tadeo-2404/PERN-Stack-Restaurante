@@ -249,13 +249,13 @@ const perfil = async (req, res) => {
             attributes: { exclude: ['contrasena'] }
         })
     
-        return res.status(200).json({cliente: cliente.dataValues});
+        return res.status(200).json(cliente.dataValues);
     } else {
         const administrador = await Administrador.findByPk(user.id, {
             attributes: { exclude: ['contrasena'] }
         })
     
-        return res.status(200).json({administrador: administrador.dataValues});
+        return res.status(200).json(administrador.dataValues);
     }
 }
 
