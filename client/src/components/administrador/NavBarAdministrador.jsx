@@ -4,9 +4,15 @@ import { ImHome } from "react-icons/im";
 import { MdFastfood, MdLogout } from "react-icons/md";
 import { useContext } from "react";
 import { Context } from "../../context/ContextProvider";
+import alertify from 'alertifyjs';
 
 const NavBarAdministrador = () => {
-  const { usuario, tipo } = useContext(Context);
+  const { usuario, tipo, cerrarSesion } = useContext(Context);
+  const cerrar_sesion = async () => {
+    const cerrar = await cerrarSesion();
+    console.log(cerrar);
+    alertify.success(`${cerrar.message}`);
+  }
   return (
     <>
       {usuario.rol === "administrador" && tipo === "administrador" ? (
@@ -50,9 +56,9 @@ const NavBarAdministrador = () => {
             </div>
 
             <div className="flex justify-center items-center p-2">
-              <div className="hover:translate-y-1">
+              <div className="hover:translate-y-1" onClick={() => cerrar_sesion()}>
                 <Link
-                  to="/cerrar-sesion"
+                  to="/administrador/cerrar-sesion"
                   className="flex justify-center items-center gap-2"
                 >
                   <MdLogout className="text-xl" />

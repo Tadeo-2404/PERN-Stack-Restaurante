@@ -48,7 +48,7 @@ const cerrar_sesion = async (tipo, token) => {
         headers: { Authorization: `Bearer ${token}` }
     };
     const url = 'cerrar-sesion';
-    const respuesta = await axios.post(`${urlBackend}/${tipo}/${url}`, config,  { withCredentials: true });
+    const respuesta = await axios.get(`${urlBackend}/${tipo}/${url}`, config,  { withCredentials: true });
     return respuesta.data;
 }
 

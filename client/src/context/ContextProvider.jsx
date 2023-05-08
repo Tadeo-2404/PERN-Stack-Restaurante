@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
-import { perfil } from "../api/usuario";
+import { cerrar_sesion, perfil } from "../api/usuario";
 import { obtener_platillos } from "../api/platillo";
 
 const Context = createContext(null);
@@ -36,7 +36,6 @@ const ContextProvider = ({ children }) => {
       const jwt = Cookies.get("acceso_token");
       if(!jwt) {
         navigate(`/${tipo}/iniciar-sesion`);
-        console.log('no')
         return;
       }
       const token = jwt_decode(jwt);
@@ -56,8 +55,16 @@ const ContextProvider = ({ children }) => {
   useEffect(() => {
     obtenerPlatillos();
   }, [platillos]);
+
+  const cerrarSesion = async () => {
+    const jwt = Cookies.get("acceso_token");
+    const cerrar = await cerrar_sesion(tipo, jwt);
+    Cookies.remove('acceso_token');
+    navigate(`/${tipo}/iniciar-sesion`);
+    return cerrar;
+  }
   
-  return <Context.Provider value={{ tipo, setTipo, usuario, platillos, SetPlatillos, obtenerPlatillos }}>{children}</Context.Provider>;
+  return <Context.Provider value={{ tipo, setTipo, usuario, platillos, SetPlatillos, obtenerPlatillos, cerrarSesion }}>{children}</Context.Provider>;
 };
 
 export { Context };
