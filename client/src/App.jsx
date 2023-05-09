@@ -12,6 +12,7 @@ import ConfirmarCuenta from "./pages/ConfirmarCuenta";
 import ContextProvider from "./context/ContextProvider";
 import Platillos from "./pages/platillo/Platillos";
 import EditarPlatillo from "./pages/platillo/EditarPlatillo";
+import Ordenes from "./pages/orden/Ordenes";
 export default function App() {
   return (
     <>
@@ -25,6 +26,10 @@ export default function App() {
               <Route path="olvide-contrasena" element={<OlvideContraseña />} />
               <Route path="restablecer-contrasena/:token" element={<RestablecerContraseña />}/>
               <Route path="confirmar-cuenta/:token" element={<ConfirmarCuenta />}/>
+
+              <Route path="platillo" element={<Platillos />} />
+              <Route path="orden" element={<Ordenes />} />
+              <Route path="orden/editar-orden" element={<EditarPlatillo />} />
               <Route path="*" element={<Error404 />} />
             </Route>
 

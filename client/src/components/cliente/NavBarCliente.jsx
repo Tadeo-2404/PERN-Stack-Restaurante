@@ -15,10 +15,10 @@ const NavBarCliente = () => {
             <h1 className="text-2xl">restaurante</h1>
           </div>
 
-          <div className="grid grid-cols-4 grid-rows-1 justify-between content-center text-center text-sm">
+          <div className="grid grid-cols-5 grid-rows-1 justify-between content-center text-center text-sm">
             <div className="flex justify-center items-center p-2">
               <div className="hover:translate-y-1">
-                <Link to="/" className="flex justify-center items-center gap-2">
+                <Link to="/cliente" className="flex justify-center items-center gap-2">
                   <ImHome />
                   <p className="hover:underline">inicio</p>
                 </Link>
@@ -28,11 +28,23 @@ const NavBarCliente = () => {
             <div className="flex justify-center items-center p-2">
               <div className="hover:translate-y-1">
                 <Link
-                  to="/platillos"
+                  to="/cliente/platillo"
                   className="flex justify-center items-center gap-2"
                 >
                   <MdFastfood />
-                  <p className="hover:underline">ordenar</p>
+                  <p className="hover:underline">platillos</p>
+                </Link>
+              </div>
+            </div>
+
+            <div className="flex justify-center items-center p-2">
+              <div className="hover:translate-y-1">
+                <Link
+                  to="/cliente/orden"
+                  className="flex justify-center items-center gap-2"
+                >
+                  <MdFastfood />
+                  <p className="hover:underline">mis ordenes</p>
                 </Link>
               </div>
             </div>

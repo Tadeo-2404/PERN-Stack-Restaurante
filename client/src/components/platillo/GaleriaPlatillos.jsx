@@ -2,7 +2,7 @@ import CardPlatillo from "./CardPlatillo";
 import { useEffect, useState } from 'react'
 import { obtener_platillos } from "../../api/platillo";
 
-const GaleriaPlatillos = (params) => {
+const GaleriaPlatillos = ({params, botones}) => {
     const [platillos, setPlatillos] = useState([]);
     
     useEffect(() => {
@@ -18,7 +18,7 @@ const GaleriaPlatillos = (params) => {
             {
                 platillos.length ? (
                     platillos.map(platillo => (
-                        <CardPlatillo key={platillo.id} datos={platillo} />
+                        <CardPlatillo key={platillo.id} datos={platillo} botones={botones}/>
                     ))
                 ) : (
                     <p>No hay platillos para mostrar</p>

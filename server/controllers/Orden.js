@@ -7,6 +7,7 @@ import { crear_orden_detalle } from './OrdenDetalle.js';
 
 const crear_orden = async (req, res) => {
     const { fecha, clienteId, platillosArr } = req.body; //leer input
+ 
     let total = 0; //inicializar total
 
     //validar campos no vacios
@@ -45,13 +46,13 @@ const crear_orden = async (req, res) => {
     try {        
         // Verificar si cada platillo existe en la base de datos
         let platillosNoValidos = 0;
-        platillosArr.forEach(async platillo => {
-            const existe = await Platillo.findOne({ where: { id: platillo.id } });
-            if (!existe) platillosNoValidos++;
-        })
-    
+        for (const platillo of platillosArr) {
+          const existe = await Platillo.findOne({ where: { id: platillo.id } });
+          if (!existe) platillosNoValidos++;
+        }
         // Si todos los platillos son validos, ejecutamos lo siguiente
         if (platillosNoValidos === 0) {
+            console.log(platillosNoValidos);
             const orden = await Orden.create({ fecha, total, clienteId }); //creamos la orden
 
             //iteramos sobre el arreglo de platillos

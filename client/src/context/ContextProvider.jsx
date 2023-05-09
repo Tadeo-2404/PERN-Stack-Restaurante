@@ -48,13 +48,10 @@ const ContextProvider = ({ children }) => {
 
       const usuario = await perfil(tipo, jwt);
       setUsuario({id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, telefono: usuario.telefono, rol: token.rol});
+      obtenerPlatillos();
     }
     obtenerCookie();
   }, []);
-
-  useEffect(() => {
-    obtenerPlatillos();
-  }, [platillos]);
 
   const cerrarSesion = async () => {
     const jwt = Cookies.get("acceso_token");
