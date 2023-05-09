@@ -10,7 +10,6 @@ const NavBarAdministrador = () => {
   const { usuario, tipo, cerrarSesion } = useContext(Context);
   const cerrar_sesion = async () => {
     const cerrar = await cerrarSesion();
-    console.log(cerrar);
     alertify.success(`${cerrar.message}`);
   }
   return (

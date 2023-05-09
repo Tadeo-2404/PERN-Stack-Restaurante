@@ -13,6 +13,8 @@ import ContextProvider from "./context/ContextProvider";
 import Platillos from "./pages/platillo/Platillos";
 import EditarPlatillo from "./pages/platillo/EditarPlatillo";
 import Ordenes from "./pages/orden/Ordenes";
+import EditarOrden from "./pages/orden/EditarOrden";
+import OrdenDetalle from "./pages/orden/OrdenDetalle";
 export default function App() {
   return (
     <>
@@ -29,7 +31,8 @@ export default function App() {
 
               <Route path="platillo" element={<Platillos />} />
               <Route path="orden" element={<Ordenes />} />
-              <Route path="orden/editar-orden" element={<EditarPlatillo />} />
+              <Route path="orden/editar-orden" element={<EditarOrden />} />
+              <Route path="orden/detalle-orden" element={<OrdenDetalle />} />
               <Route path="*" element={<Error404 />} />
             </Route>
 

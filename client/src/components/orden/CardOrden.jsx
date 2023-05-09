@@ -40,7 +40,7 @@ function CardOrden({ datos, botones }) {
               editar
             </button>
           </Link>
-          <Link to={`/cliente/orden/orden-detalle/?id=${datos.id}`}>
+          <Link to={`/cliente/orden/detalle-orden/?id=${datos.id}`}>
             <button className="p-2 w-20 bg-green-600 font-bold outline capitalize text-white hover:scale-90">
               detalles
             </button>

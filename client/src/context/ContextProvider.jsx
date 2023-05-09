@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 import { cerrar_sesion, perfil } from "../api/usuario";
 import { obtener_platillos } from "../api/platillo";
+import { obtener_ordenes } from "../api/orden";
 
 const Context = createContext(null);
 
@@ -17,51 +18,72 @@ const ContextProvider = ({ children }) => {
   const [tipo, setTipo] = useState(() => obtenerTipo());
   const [usuario, setUsuario] = useState({});
   const [platillos, SetPlatillos] = useState([]);
+  const [ordenes, SetOrdenes] = useState([]);
   const navigate = useNavigate();
 
-  const obtenerPlatillos = async (params) => {
-    const platillos = await obtener_platillos(params);
-    SetPlatillos(platillos);
-  }
-
   useEffect(() => {
-    const tipoActual = obtenerTipo();
-    if (tipoActual !== tipo) {
-      navigate(`/${tipo}/inicio`);
+    //obtener los platillos
+    const obtenerPlatillos = async (params) => {
+      try {
+        const platillos = await obtener_platillos(params);
+        SetPlatillos(platillos);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }, [tipo]);
-  
-  useEffect(() => {
+
+      //obtener las ordenes
+      const obtenerOrdenes = async (params) => {
+        try {
+          const ordenes = await obtener_ordenes(params);
+          SetOrdenes(ordenes);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+    //obtener cookie y asignar valor usuario
     const obtenerCookie = async () => {
       const jwt = Cookies.get("acceso_token");
       if(!jwt) {
         navigate(`/${tipo}/iniciar-sesion`);
         return;
       }
+
       const token = jwt_decode(jwt);
       if(token && tipo !== token.rol) {
-        console.log("adios")
         setTipo(token.rol); 
         navigate(`/${token.rol}`);
         return;
       }
 
-      const usuario = await perfil(tipo, jwt);
-      setUsuario({id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, telefono: usuario.telefono, rol: token.rol});
-      obtenerPlatillos();
+      try {
+        const usuario = await perfil(tipo, jwt);
+        setUsuario({id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, telefono: usuario.telefono, rol: token.rol});
+      } catch (error) {
+        console.log(error)
+      }
     }
+    obtenerPlatillos();
+    obtenerOrdenes();
     obtenerCookie();
   }, []);
-
+  
   const cerrarSesion = async () => {
     const jwt = Cookies.get("acceso_token");
-    const cerrar = await cerrar_sesion(tipo, jwt);
-    Cookies.remove('acceso_token');
-    navigate(`/${tipo}/iniciar-sesion`);
-    return cerrar;
+    try {
+      const cerrar = await cerrar_sesion(tipo, jwt);
+      setUsuario({});
+      SetPlatillos({});
+      Cookies.remove('acceso_token');
+      navigate(`/${tipo}/iniciar-sesion`);
+      return cerrar;
+    } catch (error) {
+      console.log(error)
+    }
   }
-  
-  return <Context.Provider value={{ tipo, setTipo, usuario, platillos, SetPlatillos, obtenerPlatillos, cerrarSesion }}>{children}</Context.Provider>;
+
+  return <Context.Provider value={{ tipo, setTipo, usuario, platillos, SetPlatillos, cerrarSesion, ordenes }}>{children}</Context.Provider>;
 };
 
 export { Context };
