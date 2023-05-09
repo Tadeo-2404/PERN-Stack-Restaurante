@@ -5,8 +5,13 @@ const obtener_ordenes_detalle = async (params = {}) => {
     const url = 'api/orden_detalle';
     const queryParams = new URLSearchParams(params);
     const queryString = queryParams.toString();
-    const response = await axios.get(`${urlBackend}/${url}${queryString ? `?${queryString}` : ''}`);
-    return response.data;
+    
+    try {
+      const response = await axios.get(`${urlBackend}/${url}${queryString ? `?${queryString}` : ''}`);
+      return response.data;
+    } catch (error) {
+      console.log(error)
+    }
   };
 
 export {

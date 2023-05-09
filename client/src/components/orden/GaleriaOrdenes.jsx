@@ -13,18 +13,21 @@ const GaleriaOrdenes = ({params, botones}) => {
       obtenerordenes();
     }, []);
     
-    return(
-        <div className={`grid grid-cols-3 gap-8`}>
-            {
-                ordenes.length ? (
-                    ordenes.map(orden => (
-                        <CardOrden key={orden.id} datos={orden} botones={botones}/>
-                    ))
-                ) : (
-                    <p>No hay ordenes para mostrar</p>
-                )
-            }
+    return (
+        <div>
+          {ordenes.length ? (
+            <div className="grid grid-cols-3 gap-8">
+              {ordenes.map((orden) => (
+                <CardOrden key={orden.id} datos={orden} botones={botones}/>
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center text-center">
+              <p>No hay detalles para mostrar</p>
+            </div>
+          )}
         </div>
-)};
+      );
+};
 
 export default GaleriaOrdenes;

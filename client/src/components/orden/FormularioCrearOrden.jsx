@@ -10,8 +10,14 @@ const FormularioCrearOrden = () => {
   const navigate = useNavigate();
   const action = tipo === "administrador" ? "/api/orden" : undefined;
 
-  const [fecha, setFecha] = useState("");
-
+  const date = new Date();
+  const day = date.toLocaleString('es', { weekday: 'long' });
+  const dateOfMonth = date.getDate();
+  const month = date.toLocaleString('es', { month: 'long' });
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const formattedDate = `${day}, ${dateOfMonth} ${month} ${date.getFullYear()} ${hours}:${minutes}`;
+  
   const mostrar = () => {
     return platillos.map((platillo) => (
       <div key={platillo.id} className="grid grid-cols-2 justify-between content-center w-full">
@@ -40,7 +46,7 @@ const FormularioCrearOrden = () => {
     }
 
     try {
-      const data = await crear_orden(fecha, usuario.id, newPlatillosArr);
+      const data = await crear_orden(formattedDate, usuario.id, newPlatillosArr);
       alertify.success(`Orden creada exitosamente`);
       navigate('/cliente/orden')
       console.log(data);
@@ -55,15 +61,6 @@ const FormularioCrearOrden = () => {
       <form action={action} method="POST" className="flex flex-col justify-center items-center gap-8 text-md" onSubmit={handleSubmit}>
         <legend className="text-3xl uppercase font-bold text-blue-600">realizar orden</legend>
         <fieldset className="flex flex-col justify-center items-center gap-8 w-full">
-
-          <div className="flex flex-col w-full gap-1">
-            <label htmlFor="fecha" className="capitalize text-gray-400">
-              fecha
-            </label>
-            <input type="date" name="fecha" id="fecha" placeholder="introduce la fecha" className="border-2 border-transparent p-2 rounded-md focus:border-blue-400 focus:outline-none w-full" required
-            value={fecha}
-            onChange={(event) => setFecha(event.target.value)}/>
-          </div>
 
           <div className="flex flex-col justify-center items-center gap-6">
             {mostrar()}

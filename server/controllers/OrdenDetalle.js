@@ -42,12 +42,20 @@ const crear_orden_detalle = async (data) => {
 }
 
 const obtener_orden_detalle = async (req, res) => {
-    const { limite, id, precio_unitario, cantidad, subtotal } = req.query; //leer parametros
+    const { limite, id, precio_unitario, cantidad, subtotal, ordenId } = req.query; //leer parametros
 
     //validacion formato id
     if (id) {
         if (!enteroRegex.test(id)) {
             const error = new Error("ID no tiene un formato valido");
+            return res.status(400).json({ msg: error.message });
+        }
+    }
+
+    //validacion formato ordenId
+    if (ordenId) {
+        if (!enteroRegex.test(ordenId)) {
+            const error = new Error("ordenId no tiene un formato valido");
             return res.status(400).json({ msg: error.message });
         }
     }
@@ -87,6 +95,7 @@ const obtener_orden_detalle = async (req, res) => {
     //asignar valores a where
     let where = {};
     if (id) where.id = id;
+    if (ordenId) where.ordenId = ordenId;
     if (precio_unitario) where.precio_unitario = precio_unitario;
     if (cantidad) where.cantidad = cantidad;
     if (subtotal) where.subtotal = subtotal;

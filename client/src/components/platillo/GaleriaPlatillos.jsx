@@ -13,18 +13,21 @@ const GaleriaPlatillos = ({params, botones}) => {
       obtenerPlatillos();
     }, []);
     
-    return(
-        <div className={`grid grid-cols-3 gap-8`}>
-            {
-                platillos.length ? (
-                    platillos.map(platillo => (
-                        <CardPlatillo key={platillo.id} datos={platillo} botones={botones}/>
-                    ))
-                ) : (
-                    <p>No hay platillos para mostrar</p>
-                )
-            }
+    return (
+        <div>
+          {platillos.length ? (
+            <div className="grid grid-cols-3 gap-8">
+              {platillos.map((platillo) => (
+                <CardPlatillo key={platillo.id} datos={platillo} botones={botones}/>              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center text-center">
+              <p>No hay detalles para mostrar</p>
+            </div>
+          )}
         </div>
-)};
+      );
+
+};
 
 export default GaleriaPlatillos;

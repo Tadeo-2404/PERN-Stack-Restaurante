@@ -9,11 +9,6 @@ function CardOrden({ datos, botones }) {
     botones: true,
   };
 
-  const limpiarFecha = (fechaCompleta) => {
-    const fecha = fechaCompleta.slice(0, 10);
-    return fecha;
-  }
-
   const eliminarOrden = async ({id}) => {
     alertify.confirm(
       `¿Deseas eliminar el orden ${datos.id}?`,
@@ -31,7 +26,7 @@ function CardOrden({ datos, botones }) {
       <h2 className="text-xl capitalize font-bold">Orden</h2>
       <p className="text-base"><span className="font-bold uppercase">id: </span>{datos.id}</p>
       <p className="text-base"><span className="font-bold capitalize">clienteId: </span>{datos.clienteId}</p>
-      <p className="text-base"><span className="font-bold capitalize">fecha: </span>{limpiarFecha(datos.fecha)}</p>
+      <p className="text-base"><span className="font-bold capitalize">fecha: </span>{datos.fecha}</p>
       <p className="text-base"><span className="font-bold capitalize">total: </span>{datos.total}</p>
       {botones && (
         <div className="flex justify-between items-center w-full">

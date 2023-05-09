@@ -16,12 +16,6 @@ const crear_orden = async (req, res) => {
         res.status(400).json({msg: error.message});
     }
 
-    //validar formato fecha
-    if(!dateOnlyRegex.test(fecha)) {
-        const error = new Error("Formato de fecha no valido YYYY-MM-DD");
-        res.status(400).json({msg: error.message});    
-    }
-
     //validar formato id
     if(!flotanteRegex.test(clienteId)) {
         const error = new Error("Formato de clienteId no valido");
@@ -148,12 +142,6 @@ const editar_orden = async (req, res) => {
     if(!fecha) {
         const error = new Error("La fecha es obligatoria");
         return res.status(400).json({msg: error.message});
-    }
-
-    //validar formato fecha
-    if(!dateOnlyRegex.test(fecha)) {
-        const error = new Error("Formato de fecha no valido YYYY-MM-DD");
-        res.status(400).json({msg: error.message});    
     }
 
     //buscar orden por ID
