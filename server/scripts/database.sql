@@ -14,26 +14,15 @@ CREATE TABLE cliente (
 	apellido  VARCHAR(50) NOT NULL,
 	correo VARCHAR(50) NOT NULL,
 	telefono VARCHAR(10),
-	fecha_de_nacimiento DATE
 );
 
 CREATE TABLE administrador (
 	id SERIAL PRIMARY KEY,
-    id_direccion SERIAL FOREIGN KEY NOT NULL,
 	nombre VARCHAR(50) NOT NULL,
 	apellido  VARCHAR(50) NOT NULL,
 	correo VARCHAR(50) NOT NULL,
 	telefono VARCHAR(10),
-	fecha_de_nacimiento DATE
 );
-
-CREATE TABLE administrador_direccion (
-    id SERIAL PRIMARY KEY, 
-    calle VARCHAR(20) NOT NULL,
-    colonia VARCHAR(20) NOT NULL,
-    numero_de_casa VARCHAR(5) NOT NULL,
-    codigo_postal INT NOT NULL,
-)
 
 CREATE TABLE platillo (
 	id SERIAL PRIMARY KEY,
@@ -57,14 +46,15 @@ CREATE TABLE orden_detalle (
 	subtotal FLOAT NOT NULL
 )
 
-CREATE TABLE carrito (
-    id SERIAL PRIMARY KEY,
-    id_cliente SERIAL FOREIGN KEY NOT NULL,
-    id_items SERIAL FOREIGN KEY NOT NULL,
+CREATE TABLE credencialesCliente (
+	id SERIAL PRIMARY KEY,
+	token VARCHAR(255),
+	confirmado BOOLEAN,
+	rol VARCHAR(15) DEFAULT: "cliente"
 )
 
-CREATE TABLE carrito_items (
-    id SERIAL PRIMARY KEY,
-    id_carrito SERIAL FOREIGN KEY NOT NULL,
-    id_platillo SERIAL FOREIGN KEY NOT NULL
+CREATE TABLE credencialesAdministrador(
+	id SERIAL PRIMARY KEY,
+	token VARCHAR(255),
+	rol VARCHAR(15) DEFAULT "administrador"
 )

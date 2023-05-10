@@ -43,6 +43,15 @@ const perfil = async (tipo, jwt) => {
     return respuesta.data;
 }
 
+const editar_perfil = async (tipo ,token, usuario) => {
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+    const url = 'perfil/editar';
+    const respuesta = await axios.post(`${urlBackend}/${tipo}/${url}`, usuario, config, { withCredentials: true });
+    return respuesta.data;
+}
+
 const cerrar_sesion = async (tipo, token) => {
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -60,5 +69,6 @@ export {
     olvide_contrasena,
     restablecer_contrasena,
     perfil,
+    editar_perfil,
     cerrar_sesion
 }

@@ -18,7 +18,7 @@ const GaleriaPlatillos = ({params, botones}) => {
           {platillos.length ? (
             <div className="grid grid-cols-3 gap-8">
               {platillos.map((platillo) => (
-                <CardPlatillo key={platillo.id} datos={platillo} botones={botones}/>              ))}
+                <CardPlatillo key={platillo.id} datos={platillo} botones={botones}/>))}
             </div>
           ) : (
             <div className="flex justify-center items-center text-center">

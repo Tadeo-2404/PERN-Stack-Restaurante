@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
-import { cerrar_sesion, perfil } from "../api/usuario";
+import { cerrar_sesion, editar_perfil, perfil } from "../api/usuario";
 import { obtener_platillos } from "../api/platillo";
 import { obtener_ordenes } from "../api/orden";
 
@@ -15,6 +15,7 @@ const obtenerTipo = () => {
 
 
 const ContextProvider = ({ children }) => {
+  const [token, setToken] = useState("");
   const [tipo, setTipo] = useState(() => obtenerTipo());
   const [usuario, setUsuario] = useState({});
   const [platillos, SetPlatillos] = useState([]);
@@ -45,6 +46,7 @@ const ContextProvider = ({ children }) => {
     //obtener cookie y asignar valor usuario
     const obtenerCookie = async () => {
       const jwt = Cookies.get("acceso_token");
+      setToken(jwt);
       if(!jwt) {
         navigate(`/${tipo}/iniciar-sesion`);
         return;
@@ -83,7 +85,16 @@ const ContextProvider = ({ children }) => {
     }
   }
 
-  return <Context.Provider value={{ tipo, setTipo, usuario, platillos, SetPlatillos, cerrarSesion, ordenes }}>{children}</Context.Provider>;
+  const editarUsuario = async (user) => {
+    try {
+      const editado = await editar_perfil(tipo ,token, user);
+      return editado;
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return <Context.Provider value={{ tipo, setTipo, usuario, platillos, SetPlatillos, cerrarSesion, editarUsuario ,ordenes }}>{children}</Context.Provider>;
 };
 
 export { Context };
