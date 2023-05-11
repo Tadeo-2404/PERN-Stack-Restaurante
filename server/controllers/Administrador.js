@@ -195,64 +195,76 @@ const restablecer_contrasena = async (req, res) => {
 
 //editar perfil
 const editar_perfil = async (req, res) => {
-    const { id ,nombre, correo, telefono } = req.body; //leer dato
-
-    //validacion id
-    if(!id) {
-        const error = new Error("El ID es obligatorio");
-        return res.status(400).json({msg: error.message});
-    } 
-
-    //validacion formato id
+    const { id, nombre, correo, telefono } = req.body; // leer datos
+  
+    // Validar si el ID es válido
+    if (!id) {
+      const error = new Error("El ID es obligatorio");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar el formato del ID
     if (!enteroRegex.test(id)) {
-        const error = new Error("ID no tiene un formato valido");
-        return res.status(400).json({ msg: error.message });
+      const error = new Error("ID no tiene un formato válido");
+      return res.status(400).json({ msg: error.message });
     }
-
-    //validar campos no vacios
+  
+    // Buscar el administrador por su ID
+    const administrador = await Administrador.findOne({ where: { id: id } });
+  
+    // Validar si el administrador existe
+    if (!administrador) {
+      const error = new Error("El administrador no existe");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar campos no vacíos
     if (!nombre && !correo && !telefono) {
-        const error = new Error("Todos los campos son obligatorios");
-        return res.status(400).json({ msg: error.message });
+      const error = new Error("Todos los campos son obligatorios");
+      return res.status(400).json({ msg: error.message });
     }
-
-    //validar formato nombre
+  
+    // Validar formato de nombre
     if (!nombreRegex.test(nombre)) {
-        const error = new Error("Formato de nombre no valido");
-        return res.status(400).json({ msg: error.message });
+      const error = new Error("Formato de nombre no válido");
+      return res.status(400).json({ msg: error.message });
     }
-
-    //validar formato correo
+  
+    // Validar formato de correo
     if (!correoRegex.test(correo)) {
-        const error = new Error("Formato de correo no valido");
-        return res.status(400).json({ msg: error.message });
+      const error = new Error("Formato de correo no válido");
+      return res.status(400).json({ msg: error.message });
     }
-
-    //validar formato telefono
+  
+    // Validar formato de teléfono
     if (!telRegex.test(telefono)) {
-        const error = new Error("Formato de telefono no valido");
-        return res.status(400).json({ msg: error.message });
+      const error = new Error("Formato de teléfono no válido");
+      return res.status(400).json({ msg: error.message });
     }
-
-    //buscar correo para validar si existe
-    const administrador = await Administrador.findOne({ where: { correo: correo } });
-
-    //validar si existe lanza error
-    if (administrador) {
-        const error = new Error("Este correo ya esta registrado");
+  
+    // Comprobar si el correo electrónico que se quiere actualizar es diferente del correo electrónico actual del cliente
+    if (correo !== administrador.correo) {
+      // Buscar correo para validar si existe
+      const correoExiste = await Administrador.findOne({ where: { correo: correo } });
+  
+      // Validar si existe lanza error
+      if (correoExiste) {
+        const error = new Error("Este correo ya está registrado");
         return res.status(400).json({ msg: error.message });
+      }
     }
-
+  
     administrador.nombre = nombre || administrador.nombre;
     administrador.correo = correo || administrador.correo;
     administrador.telefono = telefono || administrador.telefono;
-
+  
     try {
-        await administrador.save();
-        return res.status(200).json(({msg: 'Cuenta editada exitosamente'}))
+      await administrador.save();
+      return res.status(200).json({ msg: "Cuenta editada exitosamente" });
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-}
+  };
 
 //eliminar perfil
 const eliminar_perfil = async (req, res) => {

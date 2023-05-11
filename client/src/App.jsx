@@ -49,6 +49,8 @@ export default function App() {
 
               <Route path="platillo" element={<Platillos />} />
               <Route path="platillo/editar-platillo" element={<EditarPlatillo />} />
+
+              <Route path="perfil" element={<Perfil />} />
               <Route path="*" element={<Error404 />} />
             </Route>
             <Route path="*" element={<Error404 />} />

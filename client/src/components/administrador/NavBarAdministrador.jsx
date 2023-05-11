@@ -45,7 +45,7 @@ const NavBarAdministrador = () => {
             <div className="flex justify-center items-center p-2">
               <div className="hover:translate-y-1">
                 <Link
-                  to="/perfil"
+                  to="/administrador/perfil"
                   className="flex justify-center items-center gap-2"
                 >
                   <FaUserAlt />
