@@ -49,7 +49,6 @@ const iniciar_sesion = async (req, res) => {
 //crear una nueva cuenta
 const registrarse = async (req, res) => {
     const { nombre, correo, contrasena, telefono } = req.body; //leer datos
-    console.log(contrasena)
 
     //validar campos no vacios
     if (!nombre || !correo || !contrasena || !telefono) {

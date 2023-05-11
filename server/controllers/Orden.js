@@ -46,7 +46,6 @@ const crear_orden = async (req, res) => {
         }
         // Si todos los platillos son validos, ejecutamos lo siguiente
         if (platillosNoValidos === 0) {
-            console.log(platillosNoValidos);
             const orden = await Orden.create({ fecha, total, clienteId }); //creamos la orden
 
             //iteramos sobre el arreglo de platillos
