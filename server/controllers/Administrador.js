@@ -264,11 +264,11 @@ const editar_perfil = async (req, res) => {
     } catch (error) {
       console.log(error);
     }
-  };
+};
 
 //eliminar perfil
 const eliminar_perfil = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.body;
 
     //validacion id
     if(!id) {

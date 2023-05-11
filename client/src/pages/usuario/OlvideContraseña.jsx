@@ -1,4 +1,4 @@
-import FormularioOlvideContraseña from "../components/cliente/FormularioOlvideContraseña"
+import FormularioOlvideContraseña from "../../components/usuario/FormularioOlvideContraseña"
 
 const OlvideContraseña = () => {
   return (

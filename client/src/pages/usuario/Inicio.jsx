@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
-import { Context } from "../context/ContextProvider";
-import FormularioCrearPlatillo from "../components/platillo/FormularioCrearPlatillo";
-import GaleriaPlatillos from "../components/platillo/GaleriaPlatillos";
+import { Context } from "../../context/ContextProvider";
+import FormularioCrearPlatillo from "../../components/platillo/FormularioCrearPlatillo";
+import GaleriaPlatillos from "../../components/platillo/GaleriaPlatillos";
 import { Link } from "react-router-dom";
-import FormularioCrearOrden from "../components/orden/FormularioCrearOrden";
+import FormularioCrearOrden from "../../components/orden/FormularioCrearOrden";
 
 const Inicio = () => {
   const { tipo, usuario } = useContext(Context);

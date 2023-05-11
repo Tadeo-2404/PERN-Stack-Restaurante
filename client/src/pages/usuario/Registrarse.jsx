@@ -1,4 +1,4 @@
-import FormularioRegistrarse from "../components/cliente/FormularioRegistrarse"
+import FormularioRegistrarse from "../../components/usuario/FormularioRegistrarse"
 
 const Registrarse = () => {
   return (

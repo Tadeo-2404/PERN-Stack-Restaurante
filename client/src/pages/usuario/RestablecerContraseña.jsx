@@ -1,4 +1,4 @@
-import FormularioRestablecerContraseña from "../components/cliente/FormularioRestablecerContraseña"
+import FormularioRestablecerContraseña from "../../components/usuario/FormularioRestablecerContraseña"
 
 const RestablecerContraseña = () => {
   return (

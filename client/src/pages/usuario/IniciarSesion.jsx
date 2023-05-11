@@ -1,4 +1,4 @@
-import FormularioIniciarSesion from "../components/cliente/FormularioIniciarSesion"
+import FormularioIniciarSesion from "../../components/usuario/FormularioIniciarSesion"
 
 const IniciarSesion = () => {
   return (

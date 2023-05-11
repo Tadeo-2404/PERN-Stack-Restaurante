@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
-import { cerrar_sesion, editar_perfil, perfil } from "../api/usuario";
+import { cerrar_sesion, editar_perfil, eliminar_perfil, perfil } from "../api/usuario";
 import { obtener_platillos } from "../api/platillo";
 import { obtener_ordenes } from "../api/orden";
 
@@ -94,7 +94,20 @@ const ContextProvider = ({ children }) => {
     }
   }
 
-  return <Context.Provider value={{ tipo, setTipo, usuario, platillos, SetPlatillos, cerrarSesion, editarUsuario ,ordenes }}>{children}</Context.Provider>;
+  const eliminarUsuario = async () => {
+    try {
+      const eliminado = await eliminar_perfil(tipo ,token, {id: usuario.id});
+      setUsuario({});
+      setToken({});
+      Cookies.remove('acceso_token');
+      navigate(`/${tipo}/iniciar-sesion`);
+      return eliminado;
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return <Context.Provider value={{ tipo, setTipo, usuario, platillos, SetPlatillos, cerrarSesion, editarUsuario, eliminarUsuario, ordenes }}>{children}</Context.Provider>;
 };
 
 export { Context };

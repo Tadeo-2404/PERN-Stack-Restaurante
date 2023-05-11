@@ -1,11 +1,18 @@
 import { useContext, useEffect, useState } from "react";
-import { Context } from "../context/ContextProvider";
+import { Context } from "../../context/ContextProvider";
 import { BsFillPencilFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import alertify from "alertifyjs";
-import { correoRegex, nombreRegex, telRegex } from "../utils/FormUtils";
+import { correoRegex, nombreRegex, telRegex } from "../../utils/FormUtils";
 
 const FormularioUsuario = ({ usuario }) => {
-  const { editarUsuario } = useContext(Context);
+  const { editarUsuario, tipo } = useContext(Context);
+
+  const action =
+    tipo === "cliente"
+      ? "/cliente/perfil/editar"
+      : "/administrador/perfil/editar";
+
   const [nombre, setNombre] = useState(usuario.nombre);
   const [correo, setCorreo] = useState(usuario.correo);
   const [telefono, setTelefono] = useState(usuario.telefono);
@@ -86,7 +93,11 @@ const FormularioUsuario = ({ usuario }) => {
   }
 
   return (
-    <form className="flex flex-col justify-center text-left text-xl" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col justify-center text-left text-xl"
+      onSubmit={handleSubmit}
+      action={action}
+    >
       <fieldset className="flex flex-col">
         <div className="grid grid-cols-2 p-2 justify-start content-start">
           <label className="font-bold capitalize">nombre: </label>
@@ -195,6 +206,11 @@ const FormularioUsuario = ({ usuario }) => {
           className="p-2 bg-blue-600 font-bold outline capitalize text-white w-full"
         />
       )}
+          <Link to={`/${tipo}/perfil/eliminar`}>
+            <button className="p-2 bg-red-600 font-bold outline capitalize text-white hover:scale-90 w-full">
+              eliminar cuenta
+            </button>
+          </Link>
     </form>
   );
 };

@@ -1,21 +1,27 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
-
-//paginas cliente
-import Inicio from "./pages/Inicio";
-import IniciarSesion from "./pages/IniciarSesion";
+//layout
+import TemplateLayout from "./layouts/TemplateLayout"; //layout
+//usuario
+import Inicio from "./pages/usuario/Inicio"; //pagina inicio
+import IniciarSesion from "./pages/usuario/IniciarSesion"; //pagina inciar sesion
+import Registrarse from "./pages/usuario/Registrarse"; //pagina registrarse
+import OlvideContraseña from "./pages/usuario/OlvideContraseña"; //pagina mandar correo recuperar contraseña
+import RestablecerContraseña from "./pages/usuario/RestablecerContraseña"; //pagina nueva contraseña 
+import ConfirmarCuenta from "./pages/usuario/ConfirmarCuenta"; //pagina confirmar cuenta
+import Perfil from "./pages/usuario/Perfil";
+//error 404
 import Error404 from "./pages/Error404";
-import TemplateLayout from "./layouts/TemplateLayout";
-import Registrarse from "./pages/Registrarse";
-import OlvideContraseña from "./pages/OlvideContraseña";
-import RestablecerContraseña from "./pages/RestablecerContraseña";
-import ConfirmarCuenta from "./pages/ConfirmarCuenta";
+//context
 import ContextProvider from "./context/ContextProvider";
+//plaltillos
 import Platillos from "./pages/platillo/Platillos";
 import EditarPlatillo from "./pages/platillo/EditarPlatillo";
+//ordenes
 import Ordenes from "./pages/orden/Ordenes";
 import EditarOrden from "./pages/orden/EditarOrden";
 import OrdenDetalle from "./pages/orden/OrdenDetalle";
-import Perfil from "./pages/Perfil";
+import PerfilEliminar from "./pages/usuario/PerfilEliminar";
+
 export default function App() {
   return (
     <>
@@ -36,6 +42,7 @@ export default function App() {
               <Route path="orden/detalle-orden" element={<OrdenDetalle />} />
 
               <Route path="perfil" element={<Perfil />} />
+              <Route path="perfil/eliminar" element={<PerfilEliminar/>} />
               <Route path="*" element={<Error404 />} />
             </Route>
 
@@ -51,6 +58,7 @@ export default function App() {
               <Route path="platillo/editar-platillo" element={<EditarPlatillo />} />
 
               <Route path="perfil" element={<Perfil />} />
+              <Route path="perfil/eliminar" element={<PerfilEliminar/>} />
               <Route path="*" element={<Error404 />} />
             </Route>
             <Route path="*" element={<Error404 />} />

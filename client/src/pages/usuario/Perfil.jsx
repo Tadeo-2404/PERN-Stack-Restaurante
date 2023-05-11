@@ -1,5 +1,5 @@
-import FormularioUsuario from '../components/FormularioUsuario';
-import { Context } from '../context/ContextProvider'
+import FormularioUsuario from '../../components/usuario/FormularioUsuario';
+import { Context } from '../../context/ContextProvider'
 import { useContext } from 'react'
 
 const Perfil = () => {

@@ -52,6 +52,15 @@ const editar_perfil = async (tipo ,token, usuario) => {
     return respuesta.data;
 }
 
+const eliminar_perfil = async (tipo ,token, usuario) => {
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+    const url = 'perfil/eliminar';
+    const respuesta = await axios.post(`${urlBackend}/${tipo}/${url}`, usuario, config, { withCredentials: true });
+    return respuesta.data;
+}
+
 const cerrar_sesion = async (tipo, token) => {
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -70,5 +79,6 @@ export {
     restablecer_contrasena,
     perfil,
     editar_perfil,
+    eliminar_perfil,
     cerrar_sesion
 }
