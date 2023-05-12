@@ -54,6 +54,7 @@ export default function App() {
               <Route path="restablecer-contrasena/:token" element={<RestablecerContraseña />}/>
               <Route path="confirmar-cuenta/:token"element={<ConfirmarCuenta />}/>
 
+              <Route path="orden" element={<Ordenes />} />
               <Route path="platillo" element={<Platillos />} />
               <Route path="platillo/editar-platillo" element={<EditarPlatillo />} />
 

@@ -39,7 +39,7 @@ const iniciar_sesion = async (req, res) => {
         return res
             .cookie("acceso_token", token)
             .status(200)
-            .json({ message: "Bienvenido" });
+            .json({ msg: "Bienvenido" });
     } else {
         const error = new Error("Contraseña no valida");
         return res.status(400).json({ msg: error.message });

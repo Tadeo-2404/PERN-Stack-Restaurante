@@ -15,8 +15,12 @@ const registrarse = async (objeto, tipo) => {
 
 const confirmar_cuenta = async (token) => {
     const url = 'confirmar-cuenta';
-    const respuesta = await axios.get(`${urlBackend}/cliente/${url}/${token}`);
-    return respuesta.data;
+    try {
+        const respuesta = await axios.get(`${urlBackend}/cliente/${url}/${token}`);
+        return {tipo: 'exito', respuesta: respuesta.data.msg};
+    } catch (error) {
+        return {tipo: 'error', respuesta: error.response.data.msg};
+    }
 }
 
 const olvide_contrasena = async (objeto, tipo) => {

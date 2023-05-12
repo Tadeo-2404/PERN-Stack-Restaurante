@@ -36,7 +36,7 @@ const FormularioIniciarSesion = () => {
         tipo
       );
       console.log(data)
-      alertify.success(data.message);
+      alertify.success(data.msg);
       navigate(`/${tipo}`)
     } catch (error) {
       alertify.error(error.response.data.msg);
