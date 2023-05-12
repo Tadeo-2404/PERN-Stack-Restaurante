@@ -20,7 +20,7 @@ const NavBarAdministrador = () => {
             <h1 className="text-2xl">administracion</h1>
           </div>
 
-          <div className="grid grid-cols-4 grid-rows-1 justify-between content-center text-center text-sm">
+          <div className="grid grid-cols-5 grid-rows-1 justify-between content-center text-center text-sm">
             <div className="flex justify-center items-center p-2">
               <div className="hover:translate-y-1">
                 <Link to="/administrador" className="flex justify-center items-center gap-2">
@@ -45,6 +45,18 @@ const NavBarAdministrador = () => {
             <div className="flex justify-center items-center p-2">
               <div className="hover:translate-y-1">
                 <Link
+                  to="/administrador/orden"
+                  className="flex justify-center items-center gap-2"
+                >
+                  <MdFastfood />
+                  <p className="hover:underline">ordenes</p>
+                </Link>
+              </div>
+            </div>
+
+            <div className="flex justify-center items-center p-2">
+              <div className="hover:translate-y-1">
+                <Link
                   to="/administrador/perfil"
                   className="flex justify-center items-center gap-2"
                 >
@@ -56,13 +68,12 @@ const NavBarAdministrador = () => {
 
             <div className="flex justify-center items-center p-2">
               <div className="hover:translate-y-1" onClick={() => cerrar_sesion()}>
-                <Link
-                  to="/administrador/cerrar-sesion"
+                <div
                   className="flex justify-center items-center gap-2"
                 >
                   <MdLogout className="text-xl" />
                   <p className="hover:underline">salir</p>
-                </Link>
+                </div>
               </div>
             </div>
           </div>

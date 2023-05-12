@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
-import { cerrar_sesion, editar_perfil, eliminar_perfil, perfil } from "../api/usuario";
+import { cerrar_sesion, confirmar_cuenta, editar_perfil, eliminar_perfil, perfil } from "../api/usuario";
 import { obtener_platillos } from "../api/platillo";
 import { obtener_ordenes } from "../api/orden";
 
@@ -26,6 +26,7 @@ const ContextProvider = ({ children }) => {
       const ruta = window.location.pathname;
       const esCliente = usuario?.rol === "cliente";
       const esAdministrador = usuario?.rol === "administrador";
+      return;
 
       if (!usuario) {
         navigate(
@@ -51,7 +52,8 @@ const ContextProvider = ({ children }) => {
         (ruta.includes("/iniciar-sesion") ||
           ruta.includes("/registrarse") ||
           ruta.includes("/olvide-contrasena") ||
-          ruta.includes("/restablecer-contrasena"))
+          ruta.includes("/restablecer-contrasena") ||
+          ruta.includes("/confirmar-cuenta"))
       ) {
         navigate("/cliente");
       } else if (!esCliente && !esAdministrador) {
@@ -139,6 +141,11 @@ const ContextProvider = ({ children }) => {
     }
   };
 
+  const confirmarCuenta = async (token) => {
+      const confirmar = await confirmar_cuenta(token);
+      return confirmar;
+  }
+
   const eliminarUsuario = async () => {
     try {
       const eliminado = await eliminar_perfil(tipo, token, { id: usuario.id });
@@ -163,6 +170,7 @@ const ContextProvider = ({ children }) => {
         cerrarSesion,
         editarUsuario,
         eliminarUsuario,
+        confirmarCuenta,
         ordenes,
       }}
     >
