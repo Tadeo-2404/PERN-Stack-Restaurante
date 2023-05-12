@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const authorization = async (req, res, next) => {
-    const token = req.cookies.acceso_token;
+    const token = req.headers.authorization.split(" ")[1];
 
     if (!token) {
       return res.status(401).json({ message: 'Token no proporcionado' });
@@ -16,7 +16,6 @@ const authorization = async (req, res, next) => {
 
       res.cookie('acceso_token', token, { httpOnly: true });
       req.user = user;
-      console.log(req.user);
       next();
     });
 };

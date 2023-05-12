@@ -1,11 +1,11 @@
 import express from 'express';
 import { cerrar_sesion, perfil } from '../controllers/Cliente.js';
 import authorization from '../middleware/authorization.js';
-import { iniciar_sesion, olvide_contrasena, registrarse, restablecer_contrasena } from '../controllers/Administrador.js';
+import { editar_perfil, eliminar_perfil, iniciar_sesion, olvide_contrasena, registrarse, restablecer_contrasena } from '../controllers/Administrador.js';
 const router = express.Router();
 
 //ruta inciar-sesion
-router.post('/inciar-sesion', iniciar_sesion);
+router.post('/iniciar-sesion', iniciar_sesion);
 
 //ruta para registrarse
 router.post('/registrarse', registrarse);
@@ -16,10 +16,17 @@ router.post('/olvide-contrasena', olvide_contrasena);
 //ruta para establecer nueva contraseña
 router.post('/restablecer-contrasena/:token', restablecer_contrasena);
 
+/* PRIVADO */
 //ruta para cerrar sesion
 router.get('/cerrar-sesion', authorization ,cerrar_sesion);
 
-/* PRIVADO */
-router.get('/perfil', authorization ,perfil);
+//ruta para obtener perfil
+router.get('/perfil', authorization ,perfil); 
+
+//ruta para eliminar perfil
+router.post('/perfil/editar', authorization ,editar_perfil);
+
+//ruta para eliminar perfil
+router.post('/perfil/eliminar', authorization ,eliminar_perfil);
 
 export default router

@@ -7,18 +7,13 @@ import { crear_orden_detalle } from './OrdenDetalle.js';
 
 const crear_orden = async (req, res) => {
     const { fecha, clienteId, platillosArr } = req.body; //leer input
+ 
     let total = 0; //inicializar total
 
     //validar campos no vacios
     if(!fecha || !clienteId) {
         const error = new Error("Todos los campos son obligatorios");
         res.status(400).json({msg: error.message});
-    }
-
-    //validar formato fecha
-    if(!dateOnlyRegex.test(fecha)) {
-        const error = new Error("Formato de fecha no valido YYYY-MM-DD");
-        res.status(400).json({msg: error.message});    
     }
 
     //validar formato id
@@ -45,11 +40,10 @@ const crear_orden = async (req, res) => {
     try {        
         // Verificar si cada platillo existe en la base de datos
         let platillosNoValidos = 0;
-        platillosArr.forEach(async platillo => {
-            const existe = await Platillo.findOne({ where: { id: platillo.id } });
-            if (!existe) platillosNoValidos++;
-        })
-    
+        for (const platillo of platillosArr) {
+          const existe = await Platillo.findOne({ where: { id: platillo.id } });
+          if (!existe) platillosNoValidos++;
+        }
         // Si todos los platillos son validos, ejecutamos lo siguiente
         if (platillosNoValidos === 0) {
             const orden = await Orden.create({ fecha, total, clienteId }); //creamos la orden
@@ -147,12 +141,6 @@ const editar_orden = async (req, res) => {
     if(!fecha) {
         const error = new Error("La fecha es obligatoria");
         return res.status(400).json({msg: error.message});
-    }
-
-    //validar formato fecha
-    if(!dateOnlyRegex.test(fecha)) {
-        const error = new Error("Formato de fecha no valido YYYY-MM-DD");
-        res.status(400).json({msg: error.message});    
     }
 
     //buscar orden por ID

@@ -1,4 +1,4 @@
-import { contrasenaRegex, correoRegex, dateOnlyRegex, nombreRegex, telRegex } from "../helpers/utils.js"; //importar helpers
+import { contrasenaRegex, correoRegex, enteroRegex, nombreRegex, telRegex } from "../helpers/utils.js"; //importar helpers
 import Cliente from "../models/ClienteModel.js"; //importar modelo cliente
 import jwt from 'jsonwebtoken'; //importar jsonwebtoken
 import Credenciales from '../models/CredencialesClienteModel.js'; //importat modelo credenciales
@@ -27,7 +27,7 @@ const iniciar_sesion = async (req, res) => {
     const credencial = await Credenciales.findOne({ where: { clienteId: cliente.id } });
 
     //validar cuenta no confirmada
-    if (!credencial.confirmado || credencial.token) {
+    if (!credencial.confirmado) {
         const error = new Error("Necesitas confirmar tu cuenta para poder Iniciar Sesion");
         return res.status(404).json({ msg: error.message });
     }
@@ -38,12 +38,9 @@ const iniciar_sesion = async (req, res) => {
         //generar jwt y enviar cookie al frontend
         const token = jwt.sign({ id: cliente.id, rol: credencial.rol }, process.env.SECRET_TOKEN);
         return res
-            .cookie("acceso_token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-            })
+            .cookie("acceso_token", token)
             .status(200)
-            .json({ message: "Bienvenido" });
+            .json({ msg: "Bienvenido" });
     } else {
         const error = new Error("Contraseña no valida");
         return res.status(400).json({ msg: error.message });
@@ -104,7 +101,7 @@ const registrarse = async (req, res) => {
         //crear objeto de credencial para cliente
         const credencial = await Credenciales.create({ clienteId: cliente.id, token: randomToken });
         // await enviarEmail("confirmar cuenta" ,cliente, credencial.token);
-        return res.status(200).json({ msg: `Se ha enviado un correo a '${cliente.correo}' para cambiar tu contraseña` });
+        return res.status(200).json({ msg: `Se ha enviado un correo a '${cliente.correo}' para confirmar tu cuenta` });
     } catch (e) {
         console.log(e);
     }
@@ -252,13 +249,119 @@ const perfil = async (req, res) => {
             attributes: { exclude: ['contrasena'] }
         })
     
-        return res.status(200).json({cliente: cliente.dataValues});
+        return res.status(200).json(cliente.dataValues);
     } else {
         const administrador = await Administrador.findByPk(user.id, {
             attributes: { exclude: ['contrasena'] }
         })
     
-        return res.status(200).json({administrador: administrador.dataValues});
+        return res.status(200).json(administrador.dataValues);
+    }
+}
+
+//editar perfil
+const editar_perfil = async (req, res) => {
+    const { id, nombre, correo, telefono } = req.body; // leer datos
+  
+    // Validar si el ID es válido
+    if (!id) {
+      const error = new Error("El ID es obligatorio");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar el formato del ID
+    if (!enteroRegex.test(id)) {
+      const error = new Error("ID no tiene un formato válido");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Buscar el cliente por su ID
+    const cliente = await Cliente.findOne({ where: { id: id } });
+  
+    // Validar si el cliente existe
+    if (!cliente) {
+      const error = new Error("El cliente no existe");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar campos no vacíos
+    if (!nombre && !correo && !telefono) {
+      const error = new Error("Todos los campos son obligatorios");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar formato de nombre
+    if (!nombreRegex.test(nombre)) {
+      const error = new Error("Formato de nombre no válido");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar formato de correo
+    if (!correoRegex.test(correo)) {
+      const error = new Error("Formato de correo no válido");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar formato de teléfono
+    if (!telRegex.test(telefono)) {
+      const error = new Error("Formato de teléfono no válido");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Comprobar si el correo electrónico que se quiere actualizar es diferente del correo electrónico actual del cliente
+    if (correo !== cliente.correo) {
+      // Buscar correo para validar si existe
+      const correoExiste = await Cliente.findOne({ where: { correo: correo } });
+  
+      // Validar si existe lanza error
+      if (correoExiste) {
+        const error = new Error("Este correo ya está registrado");
+        return res.status(400).json({ msg: error.message });
+      }
+    }
+  
+    cliente.nombre = nombre || cliente.nombre;
+    cliente.correo = correo || cliente.correo;
+    cliente.telefono = telefono || cliente.telefono;
+  
+    try {
+      await cliente.save();
+      return res.status(200).json({ msg: "Cuenta editada exitosamente" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+//eliminar perfil
+const eliminar_perfil = async (req, res) => {
+    const { id } = req.body;
+
+    //validacion id
+    if(!id) {
+        const error = new Error("El ID es obligatorio");
+        return res.status(400).json({msg: error.message});
+    } 
+
+    //validacion formato id
+    if (!enteroRegex.test(id)) {
+        const error = new Error("ID no tiene un formato valido");
+        return res.status(400).json({ msg: error.message });
+    }
+
+    //buscar cliente
+    const cliente =  await Cliente.findByPk(id);
+
+    //validar si no existe
+    if(!cliente) {
+        const error = new Error("Este cliente no existe");
+        return res.status(400).json({ msg: error.message });
+    }
+
+    try {
+        await cliente.destroy();
+        return res.status(200).json({msg: 'Se ha elimnado tu cuenta correctamente'});
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -269,5 +372,7 @@ export {
     olvide_contrasena,
     restablecer_contrasena,
     cerrar_sesion,
-    perfil
+    perfil,
+    editar_perfil,
+    eliminar_perfil
 }

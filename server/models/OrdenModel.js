@@ -11,7 +11,7 @@ Orden.init({
         unique: true
     },
     fecha: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false
     },
     total: {

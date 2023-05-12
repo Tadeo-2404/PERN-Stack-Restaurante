@@ -1,4 +1,4 @@
-import { contrasenaRegex, correoRegex, nombreRegex, telRegex } from "../helpers/utils.js"; //importar helpers
+import { contrasenaRegex, correoRegex, enteroRegex, nombreRegex, telRegex } from "../helpers/utils.js"; //importar helpers
 import Administrador from '../models/AdminModel.js'; //importar modelo administrador
 import jwt from 'jsonwebtoken'; //importar jsonwebtoken
 import CredencialesAdministrador from '../models/CrendencialesAdminModel.js'; //importar modelo credenciales admin
@@ -37,10 +37,7 @@ const iniciar_sesion = async (req, res) => {
         //generar jwt y enviar cookie al frontend
         const token = jwt.sign({ id: administrador.id, rol: credencial.rol }, process.env.SECRET_TOKEN);
         return res
-            .cookie("acceso_token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-            })
+            .cookie("acceso_token", token)
             .status(200)
             .json({ message: "Bienvenido" });
     } else {
@@ -52,7 +49,6 @@ const iniciar_sesion = async (req, res) => {
 //crear una nueva cuenta
 const registrarse = async (req, res) => {
     const { nombre, correo, contrasena, telefono } = req.body; //leer datos
-    console.log(contrasena)
 
     //validar campos no vacios
     if (!nombre || !correo || !contrasena || !telefono) {
@@ -196,9 +192,117 @@ const restablecer_contrasena = async (req, res) => {
     }
 }
 
+//editar perfil
+const editar_perfil = async (req, res) => {
+    const { id, nombre, correo, telefono } = req.body; // leer datos
+  
+    // Validar si el ID es válido
+    if (!id) {
+      const error = new Error("El ID es obligatorio");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar el formato del ID
+    if (!enteroRegex.test(id)) {
+      const error = new Error("ID no tiene un formato válido");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Buscar el administrador por su ID
+    const administrador = await Administrador.findOne({ where: { id: id } });
+  
+    // Validar si el administrador existe
+    if (!administrador) {
+      const error = new Error("El administrador no existe");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar campos no vacíos
+    if (!nombre && !correo && !telefono) {
+      const error = new Error("Todos los campos son obligatorios");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar formato de nombre
+    if (!nombreRegex.test(nombre)) {
+      const error = new Error("Formato de nombre no válido");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar formato de correo
+    if (!correoRegex.test(correo)) {
+      const error = new Error("Formato de correo no válido");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Validar formato de teléfono
+    if (!telRegex.test(telefono)) {
+      const error = new Error("Formato de teléfono no válido");
+      return res.status(400).json({ msg: error.message });
+    }
+  
+    // Comprobar si el correo electrónico que se quiere actualizar es diferente del correo electrónico actual del cliente
+    if (correo !== administrador.correo) {
+      // Buscar correo para validar si existe
+      const correoExiste = await Administrador.findOne({ where: { correo: correo } });
+  
+      // Validar si existe lanza error
+      if (correoExiste) {
+        const error = new Error("Este correo ya está registrado");
+        return res.status(400).json({ msg: error.message });
+      }
+    }
+  
+    administrador.nombre = nombre || administrador.nombre;
+    administrador.correo = correo || administrador.correo;
+    administrador.telefono = telefono || administrador.telefono;
+  
+    try {
+      await administrador.save();
+      return res.status(200).json({ msg: "Cuenta editada exitosamente" });
+    } catch (error) {
+      console.log(error);
+    }
+};
+
+//eliminar perfil
+const eliminar_perfil = async (req, res) => {
+    const { id } = req.body;
+
+    //validacion id
+    if(!id) {
+        const error = new Error("El ID es obligatorio");
+        return res.status(400).json({msg: error.message});
+    } 
+
+    //validacion formato id
+    if (!enteroRegex.test(id)) {
+        const error = new Error("ID no tiene un formato valido");
+        return res.status(400).json({ msg: error.message });
+    }
+
+    //buscar administrador
+    const administrador =  await Administrador.findByPk(id);
+
+    //validar si no existe
+    if(!administrador) {
+        const error = new Error("Este administrador no existe");
+        return res.status(400).json({ msg: error.message });
+    }
+
+    try {
+        await administrador.destroy();
+        return res.status(200).json({msg: 'Se ha elimnado tu cuenta correctamente'});
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export {
     iniciar_sesion,
     registrarse,
     olvide_contrasena,
     restablecer_contrasena,
+    editar_perfil,
+    eliminar_perfil
 }
