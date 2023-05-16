@@ -8,60 +8,73 @@ import { obtener_ordenes } from "../api/orden";
 
 const Context = createContext(null);
 
-const obtenerTipo = () => {
-  const path = window.location.pathname;
-  return path.includes("/cliente") ? "cliente" : "administrador";
-};
-
 const ContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
-  const [tipo, setTipo] = useState(() => obtenerTipo());
+  const [tipo, setTipo] = useState("");
   const [usuario, setUsuario] = useState({});
   const [platillos, SetPlatillos] = useState([]);
   const [ordenes, SetOrdenes] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const obtenerTipo = () => {
+      const path = window.location.pathname;
+      if (path.includes("/cliente")) {
+        setTipo("cliente");
+      } else if (path.includes("/administrador")) {
+        setTipo("administrador");
+      } else {
+        setTipo("/")
+      }
+    };
+
     const protegerRutas = () => {
       const ruta = window.location.pathname;
       const esCliente = usuario?.rol === "cliente";
       const esAdministrador = usuario?.rol === "administrador";
-      return;
-
-      if (!usuario) {
-        navigate(
-          tipo === "/cliente"
-            ? "/cliente/iniciar-sesion"
-            : "/administrador/iniciar-sesion"
-        );
-      } else if (
-        (esCliente && tipo === "/administrador") ||
-        (esAdministrador && tipo === "/cliente")
-      ) {
-        navigate(`/${usuario.rol}`);
-      } else if (
-        esAdministrador &&
-        (ruta.includes("/iniciar-sesion") ||
-          ruta.includes("/registrarse") ||
-          ruta.includes("/olvide-contrasena") ||
-          ruta.includes("/restablecer-contrasena"))
-      ) {
-        navigate("/administrador");
-      } else if (
-        esCliente &&
-        (ruta.includes("/iniciar-sesion") ||
-          ruta.includes("/registrarse") ||
-          ruta.includes("/olvide-contrasena") ||
-          ruta.includes("/restablecer-contrasena") ||
-          ruta.includes("/confirmar-cuenta"))
-      ) {
-        navigate("/cliente");
-      } else if (!esCliente && !esAdministrador) {
-        navigate(
-          tipo === "/cliente"
-            ? "/cliente/iniciar-sesion"
-            : "/administrador/iniciar-sesion"
-        );
+      
+      if(esCliente || esAdministrador && !token) {
+        navigate("/");
+        return;
+      } else if(esCliente && (
+        ruta === "/" ||
+        ruta === "/cliente/iniciar-sesion" ||
+        ruta === "/cliente/registrarse" ||
+        ruta === "/cliente/olvide-contrasena" ||
+        ruta === "/cliente/restablecer-contrasena/:token" ||
+        ruta === "/cliente/confirmar-cuenta/:token" ||
+        ruta === "/administrador" ||
+        ruta === "/administrador/iniciar-sesion" ||
+        ruta === "/administrador/registrarse" ||
+        ruta === "/administrador/olvide-contrasena" ||
+        ruta === "/administrador/restablecer-contrasena/:token" ||
+        ruta === "/administrador/orden" ||
+        ruta === "/administrador/platillo" || 
+        ruta === "/administrador/platillo/editar-platillo" ||
+        ruta === "/administrador/perfil" ||
+        ruta === "/administrador/perfil/eliminar"
+      )) {
+        navigate('/cliente')
+      } else if(esAdministrador && (
+        ruta === "/" ||
+        ruta === "/administrador/iniciar-sesion" ||
+        ruta === "/administrador/registrarse" ||
+        ruta === "/administrador/olvide-contrasena" ||
+        ruta === "/administrador/restablecer-contrasena/:token" ||
+        ruta === "/cliente" ||
+        ruta === "/cliente/iniciar-sesion" ||
+        ruta === "/cliente/registrarse" ||
+        ruta === "/cliente/olvide-contrasena" ||
+        ruta === "/cliente/restablecer-contrasena/:token" ||
+        ruta === "/cliente/confirmar-cuenta/:token" ||
+        ruta === "/cliente/platillo" ||
+        ruta === "/cliente/orden" ||
+        ruta === "/cliente/orden/editar-orden" ||
+        ruta === "/cliente/orden/detalle-orden" ||
+        ruta === "/cliente/perfil" ||
+        ruta === "/cliente/perfil/eliminar" 
+      )) {
+        navigate('/administrador')
       }
     };
 
@@ -111,11 +124,13 @@ const ContextProvider = ({ children }) => {
         console.log(error);
       }
     };
+
+    obtenerTipo();
+    protegerRutas();
+    obtenerCookie();
     obtenerPlatillos();
     obtenerOrdenes();
-    obtenerCookie();
-    protegerRutas();
-  }, [usuario]);
+  }, [location.pathname]);
 
   const cerrarSesion = async () => {
     const jwt = Cookies.get("acceso_token");
@@ -125,7 +140,7 @@ const ContextProvider = ({ children }) => {
       setUsuario({});
       SetPlatillos({});
       Cookies.remove("acceso_token");
-      navigate(`/${tipo}/iniciar-sesion`);
+      navigate('/');
       return cerrar;
     } catch (error) {
       console.log(error);
