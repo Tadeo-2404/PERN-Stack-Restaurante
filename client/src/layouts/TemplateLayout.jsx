@@ -8,7 +8,7 @@ const TemplateLayout = () => {
   const { tipo } = useContext(Context);
   return (
     <div>
-      {tipo === "cliente" ? (
+      {(tipo === "cliente" || tipo === "/") ? (
         <NavBarCliente/>
       ) : (
         <NavBarAdministrador/>

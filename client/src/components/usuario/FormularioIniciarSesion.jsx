@@ -23,6 +23,7 @@ const FormularioIniciarSesion = () => {
   const [contrasena, setContrasena] = useState("");
 
   const handleSubmit = async (event) => {
+    console.log(tipo)
     event.preventDefault();
 
     if (!correo || !contrasena) {
