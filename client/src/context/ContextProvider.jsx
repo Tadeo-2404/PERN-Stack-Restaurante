@@ -33,7 +33,7 @@ const ContextProvider = ({ children }) => {
       const esCliente = usuario?.rol === "cliente";
       const esAdministrador = usuario?.rol === "administrador";
       
-      if(esCliente || esAdministrador && !token) {
+      if(!usuario.rol && (esAdministrador || esCliente)) {
         navigate("/");
         return;
       } else if(esCliente && (
