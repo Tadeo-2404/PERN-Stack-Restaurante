@@ -16,7 +16,7 @@ const enviarEmail = async (tipo ,cliente, token) => {
         <body>
             <h1>Hola ${cliente.dataValues.nombre}!!</h1>
             <p>Recientemente haz creado una cuenta en Restaurante, para confirmarla presiona el siguiente link:</p>
-            <a href='http://localhost:3000/cliente/confirmar-cuenta/${token}'>Confirmar mi cuenta</a>
+            <a href='http://localhost:5173/cliente/confirmar-cuenta/${token}'>Confirmar mi cuenta</a>
             <p>Si tu no has creado esta cuenta, puedes ignorar el correo</p>
         </body>
     </html>

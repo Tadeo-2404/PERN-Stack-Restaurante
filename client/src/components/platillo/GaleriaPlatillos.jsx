@@ -4,6 +4,7 @@ import { obtener_platillos } from "../../api/platillo";
 
 const GaleriaPlatillos = ({params, botones}) => {
     const [platillos, setPlatillos] = useState([]);
+    console.log(params)
     
     useEffect(() => {
       const obtenerPlatillos = async () => {
@@ -11,7 +12,7 @@ const GaleriaPlatillos = ({params, botones}) => {
         setPlatillos(nuevosPlatillos);
       };
       obtenerPlatillos();
-    }, []);
+    }, [params]);
     
     return (
         <div>
@@ -21,7 +22,7 @@ const GaleriaPlatillos = ({params, botones}) => {
                 <CardPlatillo key={platillo.id} datos={platillo} botones={botones}/>))}
             </div>
           ) : (
-            <div className="flex justify-center items-center text-center">
+            <div className="grid grid-cols-3 gap-8">
               <p>No hay detalles para mostrar</p>
             </div>
           )}

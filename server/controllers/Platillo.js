@@ -74,16 +74,18 @@ const obtener_platillos = async (req, res) => {
         }
     }
 
-    //asignar valores a where
+    // asignar valores a where
     let where = {};
-    if(id) where.id = id;
-    if(nombre) where.nombre = { [Op.like]: `%${nombre}%` };
-    if(descripcion) where.descripcion = { [Op.like]: `%${descripcion}%` };
-    if(precio) where.precio = precio;
+    if (id) where.id = id;
+    if (nombre) where.nombre = { [Op.iLike]: `%${nombre.toLowerCase()}%` }; // Convert to lowercase
+    if (descripcion) where.descripcion = { [Op.like]: `%${descripcion}%` };
+    if (precio) where.precio = precio;
 
     //realizar consulta a la base de datos
-    const consulta = await Platillo.findAll({where,
-    limit: limite})
+    const consulta = await Platillo.findAll({
+        where,
+        limit: limite
+    })
 
     res.status(200).json(consulta);
 }

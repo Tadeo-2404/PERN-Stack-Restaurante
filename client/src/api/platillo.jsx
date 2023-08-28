@@ -10,6 +10,7 @@ const crear_platillo = async (objeto) => {
 const obtener_platillos = async (params = {}) => {
     const url = 'api/platillo/';
     const queryParams = new URLSearchParams(params);
+    console.log(queryParams)
     const queryString = queryParams.toString();
     const response = await axios.get(`${urlBackend}/${url}${queryString ? `?${queryString}` : ''}`);
     return response.data;
@@ -25,8 +26,6 @@ const editar_platillo = async (id, objeto) => {
 const eliminar_platillo = async (id) => {
     const url = 'api/platillo';
     const respuesta = await axios.delete(`${urlBackend}/${url}?id=${id}`);
-    console.log(respuesta);
-    return;
     return respuesta.data;
 }
 

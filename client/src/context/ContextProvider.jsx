@@ -11,6 +11,7 @@ const Context = createContext(null);
 const ContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [tipo, setTipo] = useState("");
+  const [busqueda, setBusqueda] = useState("");
   const [usuario, setUsuario] = useState({});
   const [platillos, SetPlatillos] = useState([]);
   const [ordenes, SetOrdenes] = useState([]);
@@ -32,6 +33,7 @@ const ContextProvider = ({ children }) => {
       const ruta = window.location.pathname;
       const esCliente = usuario?.rol === "cliente";
       const esAdministrador = usuario?.rol === "administrador";
+      const jwt = Cookies.get("acceso_token");
       
       if(!usuario.rol && (esAdministrador || esCliente)) {
         navigate("/");
@@ -75,6 +77,25 @@ const ContextProvider = ({ children }) => {
         ruta === "/cliente/perfil/eliminar" 
       )) {
         navigate('/administrador')
+      } else if(esCliente && !jwt && (
+        ruta === "/cliente" ||
+        ruta === "/cliente/platillo" ||
+        ruta === "/cliente/orden" ||
+        ruta === "/cliente/orden/editar-orden" ||
+        ruta === "/cliente/orden/detalle-orden" ||
+        ruta === "/cliente/perfil" ||
+        ruta === "/cliente/perfil/eliminar" 
+      )) {
+        navigate('/')
+      }  else if(esAdministrador && !jwt && (
+        ruta === "/administrador" ||
+        ruta === "/administrador/orden" ||
+        ruta === "/administrador/platillo" || 
+        ruta === "/administrador/platillo/editar-platillo" ||
+        ruta === "/administrador/perfil" ||
+        ruta === "/administrador/perfil/eliminar"
+      )) {
+        navigate('/')
       }
     };
 
@@ -179,6 +200,8 @@ const ContextProvider = ({ children }) => {
       value={{
         tipo,
         setTipo,
+        busqueda,
+        setBusqueda,
         usuario,
         platillos,
         SetPlatillos,

@@ -100,7 +100,7 @@ const registrarse = async (req, res) => {
 
         //crear objeto de credencial para cliente
         const credencial = await Credenciales.create({ clienteId: cliente.id, token: randomToken });
-        // await enviarEmail("confirmar cuenta" ,cliente, credencial.token);
+        await enviarEmail("confirmar cuenta" ,cliente, credencial.token); 
         return res.status(200).json({ msg: `Se ha enviado un correo a '${cliente.correo}' para confirmar tu cuenta` });
     } catch (e) {
         console.log(e);
@@ -170,7 +170,7 @@ const olvide_contrasena = async (req, res) => {
 
     try {
         await token.save(); //guardar nuevo token
-        // await enviarEmail("restablecer contraseña", existeCliente, token.dataValues.token) //enviar correo
+        await enviarEmail("restablecer contraseña", existeCliente, token.dataValues.token) //enviar correo
         return res.status(200).json({ msg: `Se ha enviado un correo a '${existeCliente.correo}' para cambiar tu contraseña` });
     } catch (error) {
         console.log(error)

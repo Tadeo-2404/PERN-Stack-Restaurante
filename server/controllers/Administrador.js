@@ -36,6 +36,7 @@ const iniciar_sesion = async (req, res) => {
  
         //generar jwt y enviar cookie al frontend
         const token = jwt.sign({ id: administrador.id, rol: credencial.rol }, process.env.SECRET_TOKEN);
+        console.log(token)
         return res
             .cookie("acceso_token", token)
             .status(200)
@@ -134,7 +135,7 @@ const olvide_contrasena = async (req, res) => {
 
     try {
         await token.save(); //guardar nuevo token
-        // await enviarEmail("restablecer contraseña", existeAdministrador, token.dataValues.token) //enviar correo
+        await enviarEmail("restablecer contraseña", existeAdministrador, token.dataValues.token) //enviar correo
         return res.status(200).json({ msg: `Se ha enviado un correo a '${existeAdministrador.correo}' para cambiar tu contraseña` });
     } catch (error) {
         console.log(error)
