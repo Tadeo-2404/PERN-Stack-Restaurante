@@ -8,6 +8,8 @@ import alertify from 'alertifyjs';
 
 const NavBarCliente = () => {
   const { usuario, tipo, cerrarSesion } = useContext(Context);
+  console.log("tipo", tipo)
+  console.log("usuario", usuario.rol)
   const cerrar_sesion = async () => {
     const cerrar = await cerrarSesion();
     alertify.success(`${cerrar.message}`);

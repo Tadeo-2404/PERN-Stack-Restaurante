@@ -8,7 +8,7 @@ const crear_orden = async (fecha, clienteId, platillosArr) => {
 }
 
 const obtener_ordenes = async (params = {}) => {
-    const url = 'api/orden/';
+    const url = 'api/orden';
     const queryParams = new URLSearchParams(params);
     const queryString = queryParams.toString();
     const response = await axios.get(`${urlBackend}/${url}${queryString ? `?${queryString}` : ''}`);

@@ -1,4 +1,4 @@
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route, BrowserRouter as Router, useNavigate, Navigate } from "react-router-dom";
 //layout
 import TemplateLayout from "./layouts/TemplateLayout"; //layout
 //usuario
@@ -12,7 +12,7 @@ import Perfil from "./pages/usuario/Perfil";
 //error 404
 import Error404 from "./pages/Error404";
 //context
-import ContextProvider from "./context/ContextProvider";
+import ContextProvider, { Context } from "./context/ContextProvider";
 //plaltillos
 import Platillos from "./pages/platillo/Platillos";
 import EditarPlatillo from "./pages/platillo/EditarPlatillo";
@@ -22,46 +22,73 @@ import EditarOrden from "./pages/orden/EditarOrden";
 import OrdenDetalle from "./pages/orden/OrdenDetalle";
 import PerfilEliminar from "./pages/usuario/PerfilEliminar";
 import Principal from "./pages/Principal";
+import Clientes from "./pages/usuario/Clientes";
+import { useContext } from "react";
+
+
+function ClienteRoutesGuard() {
+  const { tipo } = useContext(Context);
+
+  if (tipo !== "cliente") {
+    return <Navigate to="/cliente" />;
+  }
+
+  return (
+    <Routes>
+      {/* Define your protected routes here */}
+      <Route path="/" element={<Inicio />} />
+      <Route path="iniciar-sesion" element={<IniciarSesion />} />
+      <Route path="registrarse" element={<Registrarse />} />
+      <Route path="olvide-contrasena" element={<OlvideContraseña />} />
+      <Route path="restablecer-contrasena/:token" element={<RestablecerContraseña />}/>
+      <Route path="confirmar-cuenta/:token" element={<ConfirmarCuenta />}/>
+      <Route path="platillo" element={<Platillos />} />
+      <Route path="orden" element={<Ordenes />} />
+      <Route path="orden/editar-orden" element={<EditarOrden />} />
+      <Route path="orden/detalle-orden" element={<OrdenDetalle />} />
+      <Route path="perfil" element={<Perfil />} />
+      <Route path="perfil/eliminar" element={<PerfilEliminar/>} />
+    </Routes>
+  );
+}
+
+function AdministradorRoutesGuard() {
+  const { tipo } = useContext(Context);
+
+  if (tipo !== "administrador") {
+    return <Navigate to="/administrador" />;
+  }
+
+  return (
+    <Routes>
+      <Route path="/" element={<Inicio />} />
+      <Route path="/iniciar-sesion" element={<IniciarSesion />} />
+      <Route path="registrarse" element={<Registrarse />} />
+      <Route path="olvide-contrasena" element={<OlvideContraseña />} />
+      <Route path="restablecer-contrasena/:token" element={<RestablecerContraseña />}/>
+      <Route path="orden" element={<Ordenes />} />
+      <Route path="platillo" element={<Platillos />} />
+      <Route path="platillo/editar-platillo" element={<EditarPlatillo />} />
+      <Route path="perfil" element={<Perfil />} />
+      <Route path="perfil/eliminar" element={<PerfilEliminar/>} />
+      <Route path="clientes" element={<Clientes/>}/>
+    </Routes>
+  );
+}
 
 export default function App() {
   return (
-    <>
-      <Router>
-        <ContextProvider>
-          <Routes>
-            <Route path="/" element={<TemplateLayout />}>
-              <Route index element={<Principal />} />
-
-              {/* CLIENTE */}
-              <Route path="cliente" element={<Inicio />} />
-              <Route path="cliente/iniciar-sesion" element={<IniciarSesion />} />
-              <Route path="cliente/registrarse" element={<Registrarse />} />
-              <Route path="cliente/olvide-contrasena" element={<OlvideContraseña />} />
-              <Route path="cliente/restablecer-contrasena/:token" element={<RestablecerContraseña />}/>
-              <Route path="cliente/confirmar-cuenta/:token" element={<ConfirmarCuenta />}/>
-              <Route path="cliente/platillo" element={<Platillos />} />
-              <Route path="cliente/orden" element={<Ordenes />} />
-              <Route path="cliente/orden/editar-orden" element={<EditarOrden />} />
-              <Route path="cliente/orden/detalle-orden" element={<OrdenDetalle />} />
-              <Route path="cliente/perfil" element={<Perfil />} />
-              <Route path="cliente/perfil/eliminar" element={<PerfilEliminar/>} />
-
-              {/* ADMINISTRADOR */}
-              <Route path="administrador" element={<Inicio />} />
-              <Route path="administrador/iniciar-sesion" element={<IniciarSesion />} />
-              <Route path="administrador/registrarse" element={<Registrarse />} />
-              <Route path="administrador/olvide-contrasena" element={<OlvideContraseña />} />
-              <Route path="administrador/restablecer-contrasena/:token" element={<RestablecerContraseña />}/>
-              <Route path="administrador/orden" element={<Ordenes />} />
-              <Route path="administrador/platillo" element={<Platillos />} />
-              <Route path="administrador/platillo/editar-platillo" element={<EditarPlatillo />} />
-              <Route path="administrador/perfil" element={<Perfil />} />
-              <Route path="administrador/perfil/eliminar" element={<PerfilEliminar/>} />
-            </Route>
-            <Route path="*" element={<Error404 />} />
-          </Routes>
-        </ContextProvider>
-      </Router>
-    </>
+    <Router>
+      <ContextProvider>
+        <Routes>
+          <Route path="/" element={<TemplateLayout />}>
+            <Route index element={<Principal />} />
+            <Route path="cliente/*" element={<ClienteRoutesGuard />} />
+            <Route path="administrador/*" element={<AdministradorRoutesGuard />} />
+          </Route>
+          <Route path="*" element={<Error404 />} />
+        </Routes>
+      </ContextProvider>
+    </Router>
   );
 }

@@ -10,7 +10,6 @@ const crear_platillo = async (objeto) => {
 const obtener_platillos = async (params = {}) => {
     const url = 'api/platillo/';
     const queryParams = new URLSearchParams(params);
-    console.log(queryParams)
     const queryString = queryParams.toString();
     const response = await axios.get(`${urlBackend}/${url}${queryString ? `?${queryString}` : ''}`);
     return response.data;

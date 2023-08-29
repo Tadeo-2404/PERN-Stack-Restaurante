@@ -1,6 +1,7 @@
 import { dateOnlyRegex, enteroRegex, flotanteRegex } from '../helpers/utils.js';
 import Cliente from '../models/ClienteModel.js';
 import Orden_Detalle from '../models/OrdenDetalleModel.js';
+import { Op } from 'sequelize';
 import Orden from '../models/OrdenModel.js';
 import Platillo from '../models/PlatilloModel.js';
 import { crear_orden_detalle } from './OrdenDetalle.js';
@@ -75,12 +76,20 @@ const crear_orden = async (req, res) => {
 }
 
 const obtener_ordenes = async (req, res) => {
-    const { limite, id, fecha, total } = req.query; //leer parametros
+    const { limite, id, fecha, total, clienteId, totalMin, totalMax } = req.query; //leer parametros
 
     //validacion formato id
     if(id) {
         if(!enteroRegex.test(id)) {
             const error = new Error("ID no tiene un formato valido");
+            return res.status(400).json({msg: error.message});
+        }
+    }
+
+    //validacion formato clienteId
+    if(clienteId) {
+        if(!enteroRegex.test(clienteId)) {
+            const error = new Error("clienteId no tiene un formato valido");
             return res.status(400).json({msg: error.message});
         }
     }
@@ -93,10 +102,18 @@ const obtener_ordenes = async (req, res) => {
         }
     }
 
-    //validacion formato total
-    if(total) {
-        if(!enteroRegex.test(total) || !flotanteRegex.test(total)) {
-            const error = new Error("Total no tiene un formato valido");
+    //validacion formato totalMin
+    if(totalMin) {
+        if(!enteroRegex.test(totalMin) || !flotanteRegex.test(totalMin)) {
+            const error = new Error("totalMin no tiene un formato valido");
+            res.status(400).json({msg: error.message});
+        }
+    }
+
+    //validacion formato totalMax
+    if(totalMax) {
+        if(!enteroRegex.test(totalMax) || !flotanteRegex.test(totalMax)) {
+            const error = new Error("totalMax no tiene un formato valido");
             res.status(400).json({msg: error.message});
         }
     }
@@ -111,9 +128,25 @@ const obtener_ordenes = async (req, res) => {
 
     //asignar valores a where
     let where = {};
-    if(id) where.id = id;
-    if(fecha) where.fecha = { [Op.like]: `%${fecha}%` };
-    if(total) where.total = total;
+    if (id) where.id = id;
+    if (fecha) where.fecha = { [Op.like]: `%${fecha}%` };
+    if (clienteId) where.clienteId = clienteId;
+    if (totalMin) {
+        where.total = {
+          [Op.gte]: parseInt(totalMin)
+        };
+      }
+      if (totalMax) {
+        where.total = {
+          ...where.total,
+          [Op.lte]: parseInt(totalMax)
+        };
+      } 
+    if(totalMin && totalMax) {
+        where.total = {
+          [Op.between]: [parseInt(totalMin), parseInt(totalMax)]
+      };
+    }
 
     //realizar consulta a la base de datos
     const consulta = await Orden.findAll({where,

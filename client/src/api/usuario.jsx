@@ -1,6 +1,14 @@
 import axios from 'axios';
 const urlBackend = "http://localhost:3000";
 
+const obtener_clientes = async (params = {}) => {
+    const url = 'cliente';
+    const queryParams = new URLSearchParams(params);
+    const queryString = queryParams.toString();
+    const response = await axios.get(`${urlBackend}/${url}${queryString ? `?${queryString}` : ''}`);
+    return response.data;
+};
+
 const iniciar_sesion = async (objeto, tipo) => {
     const url = 'iniciar-sesion';
     const respuesta = await axios.post(`${urlBackend}/${tipo}/${url}`, objeto, { withCredentials: true });
@@ -84,5 +92,6 @@ export {
     perfil,
     editar_perfil,
     eliminar_perfil,
-    cerrar_sesion
+    cerrar_sesion,
+    obtener_clientes
 }

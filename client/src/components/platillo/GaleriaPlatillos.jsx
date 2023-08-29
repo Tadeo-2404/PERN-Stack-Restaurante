@@ -4,7 +4,6 @@ import { obtener_platillos } from "../../api/platillo";
 
 const GaleriaPlatillos = ({params, botones}) => {
     const [platillos, setPlatillos] = useState([]);
-    console.log(params)
     
     useEffect(() => {
       const obtenerPlatillos = async () => {

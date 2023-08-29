@@ -1,17 +1,17 @@
-import { obtener_ordenes } from "../../api/orden";
 import CardOrden from "./CardOrden";
+import { obtener_ordenes } from "../../api/orden";
 import { useEffect, useState } from 'react'
 
-const GaleriaOrdenes = ({params, botones}) => {
+const GaleriaOrdenes = ({params, botones, usuario}) => {
     const [ordenes, setOrdenes] = useState([]);
     
     useEffect(() => {
       const obtenerordenes = async () => {
-        const nuevasOrdenes = await obtener_ordenes(params);
+        const nuevasOrdenes = await obtener_ordenes({...params, clienteId: usuario.id});
         setOrdenes(nuevasOrdenes);
       };
       obtenerordenes();
-    }, []);
+    }, [params]);
     
     return (
         <div>
@@ -22,7 +22,7 @@ const GaleriaOrdenes = ({params, botones}) => {
               ))}
             </div>
           ) : (
-            <div className="flex justify-center items-center text-center">
+            <div className="grid grid-cols-3 gap-8">
               <p>No hay detalles para mostrar</p>
             </div>
           )}

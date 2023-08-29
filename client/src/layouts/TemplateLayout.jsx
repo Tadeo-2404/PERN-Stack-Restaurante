@@ -5,10 +5,12 @@ import NavBarAdministrador from "../components/administrador/NavBarAdministrador
 import NavBarCliente from "../components/cliente/NavBarCliente";
 
 const TemplateLayout = () => {
-  const { tipo } = useContext(Context);
+  const { tipo, usuario } = useContext(Context);
+  console.log("tipo", tipo)
+  console.log("usuario", usuario.rol)
   return (
     <div>
-      {(tipo === "cliente" || tipo === "/") ? (
+      {(usuario.rol === "cliente") ? (
         <NavBarCliente/>
       ) : (
         <NavBarAdministrador/>

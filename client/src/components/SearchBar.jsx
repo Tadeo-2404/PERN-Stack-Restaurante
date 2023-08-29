@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const SearchBar = ({ setBusqueda }) => {
+const SearchBar = ({ setBusqueda, titulo }) => {
   const handleInputChange = event => {
     const searchQuery = event.target.value;
     setBusqueda(searchQuery);
@@ -9,7 +9,7 @@ const SearchBar = ({ setBusqueda }) => {
   return (
     <div className='flex justify-between items-center mb-8'>
       <fieldset className='w-full'>
-        <legend className='mb-2 text-blue-600 uppercase text-xl font-bold'>buscar</legend>
+        <legend className='mb-2 text-blue-600 uppercase text-xl font-bold'>{titulo}</legend>
         <div className='flex w-full'>
           <input
             type="search"

@@ -5,6 +5,7 @@ import Credenciales from '../models/CredencialesClienteModel.js'; //importat mod
 import crypto from 'crypto'; //importar crypto para token seguro
 import { enviarEmail } from "../helpers/enviarCorreo.js";
 import Administrador from "../models/AdminModel.js";
+import { Op } from "sequelize";
 
 //inciar sesion
 const iniciar_sesion = async (req, res) => {
@@ -365,6 +366,60 @@ const eliminar_perfil = async (req, res) => {
     }
 }
 
+const obtenerCliente = async (req, res) => {
+    const { limite, id, nombre, correo, telefono } = req.query; //leer parametros
+
+    //validacion formato id
+    if(id) {
+        if(!enteroRegex.test(id)) {
+            const error = new Error("ID no tiene un formato valido");
+            return res.status(400).json({msg: error.message});
+        }
+    }
+
+    //validacion formato limite
+    if(limite) {
+        if(!enteroRegex.test(limite)) {
+            const error = new Error("Limite no tiene un formato valido");
+            return res.status(400).json({msg: error.message});
+        }
+    }
+
+    // Validar formato de correo
+    if (correo) {
+        if (!correoRegex.test(correo)) {
+            const error = new Error("Formato de correo no válido");
+            return res.status(400).json({ msg: error.message });
+        }
+    }
+
+    //validacion formato telefono
+    if(telefono) {
+        if(!enteroRegex.test(telefono)) {
+            const error = new Error("Telefono no tiene un formato valido");
+            res.status(400).json({msg: error.message});
+        }
+    }
+
+    const attributes = ['id', 'nombre', 'correo', 'telefono'];
+
+    // asignar valores a where
+    let where = {};
+    if (id) where.id = id;
+    if (nombre) where.nombre = { [Op.iLike]: `%${nombre.toLowerCase()}%` };
+    if (correo) where.correo = { [Op.iLike]: `%${correo}%` };
+    if (telefono) where.telefono = { [Op.iLike]: `%${telefono}%` };
+
+    //realizar consulta a la base de datos
+    const consulta = await Cliente.findAll({
+        attributes,
+        where,
+        limit: limite
+    })
+
+    res.status(200).json(consulta);
+}
+
 export {
     iniciar_sesion,
     registrarse,
@@ -374,5 +429,6 @@ export {
     cerrar_sesion,
     perfil,
     editar_perfil,
-    eliminar_perfil
+    eliminar_perfil,
+    obtenerCliente
 }

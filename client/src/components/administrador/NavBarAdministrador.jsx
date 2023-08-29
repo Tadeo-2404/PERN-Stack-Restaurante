@@ -8,19 +8,22 @@ import alertify from 'alertifyjs';
 
 const NavBarAdministrador = () => {
   const { usuario, tipo, cerrarSesion } = useContext(Context);
+  console.log("tipo", tipo)
+  console.log("usuario", usuario.rol)
   const cerrar_sesion = async () => {
     const cerrar = await cerrarSesion();
     alertify.success(`${cerrar.message}`);
   }
+  
   return (
     <>
-      {usuario.rol === "administrador" && tipo === "administrador" ? (
+      {usuario.rol === "administrador" ? (
         <div className="bg-orange-500 p-6 text-white uppercase font-bold flex justify-between items-center">
           <div>
             <h1 className="text-2xl">administracion</h1>
           </div>
 
-          <div className="grid grid-cols-5 grid-rows-1 justify-between content-center text-center text-sm">
+          <div className="grid grid-cols-6 grid-rows-1 justify-between content-center text-center text-sm">
             <div className="flex justify-center items-center p-2">
               <div className="hover:translate-y-1">
                 <Link to="/administrador" className="flex justify-center items-center gap-2">
@@ -50,6 +53,18 @@ const NavBarAdministrador = () => {
                 >
                   <MdFastfood />
                   <p className="hover:underline">ordenes</p>
+                </Link>
+              </div>
+            </div>
+
+            <div className="flex justify-center items-center p-2">
+              <div className="hover:translate-y-1">
+                <Link
+                  to="/administrador/clientes"
+                  className="flex justify-center items-center gap-2"
+                >
+                  <FaUserAlt />
+                  <p className="hover:underline">clientes</p>
                 </Link>
               </div>
             </div>
