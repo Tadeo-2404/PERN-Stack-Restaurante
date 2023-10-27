@@ -7,7 +7,10 @@ const GaleriaOrdenes = ({params, botones, usuario}) => {
     
     useEffect(() => {
       const obtenerordenes = async () => {
-        const nuevasOrdenes = await obtener_ordenes({...params, clienteId: usuario.id});
+        const nuevasOrdenes = await obtener_ordenes({
+          ...params,
+          ...(usuario.rol === "cliente" ? { clienteId: usuario.id } : {}),
+        });
         setOrdenes(nuevasOrdenes);
       };
       obtenerordenes();

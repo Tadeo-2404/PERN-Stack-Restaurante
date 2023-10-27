@@ -5,11 +5,12 @@ import { MdFastfood, MdLogout } from "react-icons/md";
 import { useContext } from "react";
 import { Context } from "../../context/ContextProvider";
 import alertify from 'alertifyjs';
+import Cookies from "js-cookie";
 
 const NavBarAdministrador = () => {
-  const { usuario, tipo, cerrarSesion } = useContext(Context);
-  console.log("tipo", tipo)
-  console.log("usuario", usuario.rol)
+  const { usuario, cerrarSesion } = useContext(Context);
+  const jwt = Cookies.get("acceso_token"); //obtener cookie
+
   const cerrar_sesion = async () => {
     const cerrar = await cerrarSesion();
     alertify.success(`${cerrar.message}`);
@@ -17,7 +18,7 @@ const NavBarAdministrador = () => {
   
   return (
     <>
-      {usuario.rol === "administrador" ? (
+      {usuario.rol === "administrador" && jwt ? (
         <div className="bg-orange-500 p-6 text-white uppercase font-bold flex justify-between items-center">
           <div>
             <h1 className="text-2xl">administracion</h1>

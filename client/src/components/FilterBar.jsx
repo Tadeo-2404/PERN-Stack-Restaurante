@@ -22,14 +22,15 @@ const FilterBar = ({ setPropsOrdenes, usuario }) => {
 
   useEffect(() => {
     const obtenerIDsOrden = async () => {
-      const ordenes = await obtener_ordenes({clienteId: usuario.id});
-      const ids = ordenes.map((order) => order.id);
+      const ordenes = await obtener_ordenes((usuario?.rol === "cliente" ? { clienteId: usuario?.id } : {}));
+      const ids = ordenes.map((order) => order?.id);
+      console.log(ids)
       setIdsOrden(ids);
     };
 
     const obtenerIDsCliente = async () => {
       const clientes = await obtener_clientes();
-      const ids = clientes.map((cliente) => cliente.id);
+      const ids = clientes.map((cliente) => cliente?.id);
       setIdsClientes(ids);
     };
 

@@ -4,9 +4,11 @@ import { useState } from "react";
 import { crear_orden } from "../../api/orden";
 import { useNavigate } from "react-router-dom";
 import alertify from 'alertifyjs';
+import { obtener_platillos } from "../../api/platillo";
 
 const FormularioCrearOrden = () => {
-  const { tipo, usuario, platillos } = useContext(Context);
+  const { tipo, usuario } = useContext(Context);
+  const [platillos, setPlatillos] = useState([]);
   const navigate = useNavigate();
   const action = tipo === "administrador" ? "/api/orden" : undefined;
 
@@ -17,12 +19,21 @@ const FormularioCrearOrden = () => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const formattedDate = `${day}, ${dateOfMonth} ${month} ${date.getFullYear()} ${hours}:${minutes}`;
+
+  const obtenerPlatillos = async () => {
+    try {
+      const response = await obtener_platillos();
+      setPlatillos(response);
+    } catch (error) {
+      console.log(error)
+    }
+  }
   
   const mostrar = () => {
-    return platillos.map((platillo) => (
-      <div key={platillo.id} className="grid grid-cols-2 justify-between content-center w-full">
-          <label htmlFor={`platillo-${platillo.id}`} className="capitalize">{platillo.nombre}</label>
-          <input type="number" name={`platillo-${platillo.id}`} id={`platillo-${platillo.id}`} placeholder="cantidad" min={0} className="border-2 border-transparent p-1 rounded-md focus:border-blue-400 focus:outline-none w-full"/>
+    return platillos?.map((platillo) => (
+      <div key={platillo?.id} className="grid grid-cols-2 justify-between content-center w-full">
+          <label htmlFor={`platillo-${platillo?.id}`} className="capitalize">{platillo?.nombre}</label>
+          <input type="number" name={`platillo-${platillo?.id}`} id={`platillo-${platillo?.id}`} placeholder="cantidad" min={0} className="border-2 border-transparent p-1 rounded-md focus:border-blue-400 focus:outline-none w-full"/>
       </div>
     ));
   };
@@ -46,7 +57,7 @@ const FormularioCrearOrden = () => {
     }
 
     try {
-      const data = await crear_orden(formattedDate, usuario.id, newPlatillosArr);
+      const data = await crear_orden(formattedDate, usuario?.id, newPlatillosArr);
       alertify.success(`Orden creada exitosamente`);
       navigate('/cliente/orden')
       console.log(data);
@@ -55,6 +66,10 @@ const FormularioCrearOrden = () => {
       alertify.error(error.response.data.msg);
     }
   }
+
+  useEffect(() => {
+    obtenerPlatillos();
+  }, []);
 
   return (
     <div className="p-8 bg-white shadow-xl">

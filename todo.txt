@@ -1,0 +1,3 @@
+descomentar los //navigate
+proteger rutas detalle-orden porque cualquier cliente lo puede ver
+proteger rutas en general

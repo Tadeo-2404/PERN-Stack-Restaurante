@@ -1,14 +1,25 @@
 import { useSearchParams } from "react-router-dom";
 import { Context } from "../../context/ContextProvider";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import FormularioEditarOrden from "../../components/orden/FormularioEditarOrden";
 import CardOrden from "../../components/orden/CardOrden";
+import { obtener_ordenes } from "../../api/orden";
 
 const EditarOrden = () => {
   const [searchParams] = useSearchParams();
+  const [ordenes, setOrdenes] = useState([]);
   const id = searchParams.get("id");
 
-  const { ordenes } = useContext(Context);
+  const obtenerOrdenes = async () => {
+    const response = await obtener_ordenes({id: id});
+    setOrdenes(response)
+    console.log(response);
+  }
+
+  useEffect(() => {
+    obtenerOrdenes();
+  }, []);
+
   const orden = ordenes.find((x) => x.id == id);
 
   return (
