@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Context } from "../../context/ContextProvider";
 import { Link } from 'react-router-dom';
 import { useState } from "react";
-import { flotanteRegex, nombreRegex } from "../../utils/FormUtils";
+import { flotanteRegex, nombreRegex, precioRegex } from "../../utils/FormUtils";
 import { crear_platillo } from "../../api/platillo";
 import alertify from 'alertifyjs';
 
@@ -28,7 +28,7 @@ const FormularioCrearPlatillo = () => {
       return;
     }
 
-    if(!flotanteRegex.test(precio)) {
+    if(precioRegex.test(parseInt(precio))) {      
       alertify.error('Formato de precio invalido');
       return;
     }

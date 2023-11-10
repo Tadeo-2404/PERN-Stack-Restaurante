@@ -7,6 +7,7 @@ const nombreRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/u;
 const correoRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/u;
 const telRegex = /^\d{10}$/u;
 const contrasenaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/u;
+const precioRegex = /^[0-9]{1,1000}$/;
 
 export {
     cadenaRegex,
@@ -17,5 +18,6 @@ export {
     nombreRegex,
     correoRegex,
     telRegex,
-    contrasenaRegex
+    contrasenaRegex,
+    precioRegex
 }
