@@ -1,15 +1,29 @@
 import { useSearchParams } from "react-router-dom";
 import { Context } from "../../context/ContextProvider";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import CardPlatillo from "../../components/platillo/CardPlatillo";
 import FormularioEditarPlatillo from "../../components/platillo/FormularioEditarPlatillo";
+import { obtener_platillos } from "../../api/platillo";
 
 const EditarPlatillo = () => {
+  const [platillo, setPlatillo] = useState([]);
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
+  console.log("id",  id)
 
-  const { platillos } = useContext(Context);
-  const platillo = platillos.find((x) => x.id == id);
+  const obtenerPlatillos = async () => {
+    try {
+      const response = await obtener_platillos({id: id});
+      console.log("response", response)
+      setPlatillo(response[0]);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    obtenerPlatillos();
+  }, []);
 
   return (
     <div>

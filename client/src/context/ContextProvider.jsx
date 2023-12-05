@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
-import { cerrar_sesion, confirmar_cuenta, editar_perfil, eliminar_perfil, obtener_clientes, perfil } from "../api/usuario";
+import { cerrar_sesion, confirmar_cuenta, editar_perfil, eliminar_perfil, obtener_clientes, olvide_contrasena, perfil, restablecer_contrasena } from "../api/usuario";
 
 const Context = createContext(null);
 
@@ -81,6 +81,15 @@ const ContextProvider = ({ children }) => {
     }
   };
 
+  const olvideContrasena = async (correo) => {
+    try {
+      const response = await olvide_contrasena(correo, tipo);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const confirmarCuenta = async (token) => {
       const confirmar = await confirmar_cuenta(token);
       return confirmar;
@@ -111,6 +120,7 @@ const ContextProvider = ({ children }) => {
         editarUsuario,
         eliminarUsuario,
         confirmarCuenta,
+        olvideContrasena,
         propsOrdenes,
         setPropsOrdenes,
         busquedaCliente,

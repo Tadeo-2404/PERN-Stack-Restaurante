@@ -139,6 +139,7 @@ const confirmar_cuenta = async (req, res) => {
 //mandar correo solicitud de contraseña nueva
 const olvide_contrasena = async (req, res) => {
     const { correo } = req.body; //leer correo
+    console.log("correo", correo)
 
     //validar si correo existe
     if (!correo) {

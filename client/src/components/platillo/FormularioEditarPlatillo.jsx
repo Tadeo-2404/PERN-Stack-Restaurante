@@ -17,11 +17,10 @@ const FormularioEditarPlatillo = ({id}) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!nombre || !descripcion || !precio) {
-      alertify.error('Todos los campos son obligatorios');
+    if (!nombre && !descripcion && !precio) {
+      alertify.error('Hay campos vacios');
       return;
     }
-
 
     if (!nombreRegex.test(nombre)) {
       alertify.error('Formato de nombre invalido');

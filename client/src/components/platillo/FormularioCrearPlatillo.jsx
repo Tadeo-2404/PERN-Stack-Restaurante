@@ -28,7 +28,7 @@ const FormularioCrearPlatillo = () => {
       return;
     }
 
-    if(precioRegex.test(parseInt(precio))) {      
+    if(!precioRegex.test(parseInt(precio))) {      
       alertify.error('Formato de precio invalido');
       return;
     }

@@ -5,9 +5,10 @@ import { crear_orden } from "../../api/orden";
 import { useNavigate } from "react-router-dom";
 import alertify from 'alertifyjs';
 import { obtener_platillos } from "../../api/platillo";
+import SearchBar from "../SearchBar";
 
 const FormularioCrearOrden = () => {
-  const { tipo, usuario } = useContext(Context);
+  const { tipo, usuario, setBusqueda, busqueda } = useContext(Context);
   const [platillos, setPlatillos] = useState([]);
   const navigate = useNavigate();
   const action = tipo === "administrador" ? "/api/orden" : undefined;
@@ -22,7 +23,8 @@ const FormularioCrearOrden = () => {
 
   const obtenerPlatillos = async () => {
     try {
-      const response = await obtener_platillos();
+      const response = await obtener_platillos({nombre: busqueda});
+      console.log("response", response)
       setPlatillos(response);
     } catch (error) {
       console.log(error)
@@ -69,7 +71,7 @@ const FormularioCrearOrden = () => {
 
   useEffect(() => {
     obtenerPlatillos();
-  }, []);
+  }, [busqueda]);
 
   return (
     <div className="p-8 bg-white shadow-xl">
@@ -78,6 +80,7 @@ const FormularioCrearOrden = () => {
         <fieldset className="flex flex-col justify-center items-center gap-8 w-full">
 
           <div className="flex flex-col justify-center items-center gap-6">
+            <SearchBar setBusqueda={setBusqueda} titulo={"buscar platillos"}/>
             {mostrar()}
           </div>
 

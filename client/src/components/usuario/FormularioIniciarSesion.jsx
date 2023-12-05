@@ -23,7 +23,7 @@ const FormularioIniciarSesion = () => {
   const [contrasena, setContrasena] = useState("");
 
   const handleSubmit = async (event) => {
-    console.log(tipo)
+    console.log(correo)
     event.preventDefault();
 
     if (!correo || !contrasena) {
@@ -36,7 +36,6 @@ const FormularioIniciarSesion = () => {
         { correo, contrasena },
         tipo
       );
-      console.log(data)
       alertify.success(data.msg);
       navigate(`/${tipo}`)
     } catch (error) {
@@ -95,6 +94,7 @@ const FormularioIniciarSesion = () => {
         />
       </form>
       <div className="flex justify-between items-center text-blue-400 text-sm mt-5 capitalize w-full gap-8">
+        <Link to={"/"}>Volver</Link>
         <Link to={registrarse}>¿No tienes una cuenta? Regístrate</Link>
         <Link to={olvide}>¿Olvidaste tu contraseña?</Link>
       </div>

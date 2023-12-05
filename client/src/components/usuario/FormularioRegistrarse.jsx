@@ -117,6 +117,7 @@ const FormularioRegistrarse = () => {
         <input type="submit" value="registrarse" className="p-2 bg-blue-600 font-bold outline capitalize text-white w-full hover:scale-90"/>
       </form>
       <div className="flex justify-between items-center text-blue-400 text-sm mt-5 capitalize w-full gap-8">
+      <Link to={"/"}>Volver</Link>
       <Link to={iniciarSesion}>
         ¿Ya tienes una cuenta? Inicia Sesion
       </Link>

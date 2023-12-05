@@ -9,25 +9,39 @@ function CardOrden({ datos, botones }) {
     botones: true,
   };
 
-  const eliminarOrden = async ({id}) => {
+  const eliminarOrden = async ({ id }) => {
     alertify.confirm(
       `¿Deseas eliminar el orden ${datos.id}?`,
       async function () {
         const eliminado = await eliminar_orden(parseInt(id));
-        alertify.success(`Orden con el ID ${id} eliminado correctamente`)
+        alertify.success(`Orden con el ID ${id} eliminado correctamente`);
         navigate("/cliente/orden");
-      },
-      function () {}
-      );
+      }
+    );
   };
 
   return (
     <div className="flex flex-col justify-between items-center bg-gray-200 p-4 shadow-lg rounded-lg gap-4 text-center">
       <h2 className="text-xl capitalize font-bold">Orden</h2>
-      <p className="text-base"><span className="font-bold uppercase">id: </span>{datos.id}</p>
-      <p className="text-base"><span className="font-bold capitalize">clienteId: </span>{datos.clienteId}</p>
-      <p className="text-base"><span className="font-bold capitalize">fecha: </span>{datos.fecha}</p>
-      <p className="text-base"><span className="font-bold capitalize">total: </span>{datos.total}</p>
+      <p className="text-base">
+        <span className="font-bold uppercase">id: </span>
+        {datos.id}
+      </p>
+      <p className="text-base">
+        <span className="font-bold capitalize">clienteId: </span>
+        {datos.clienteId}
+      </p>
+      <p className="text-base">
+        <span className="font-bold capitalize">fecha: </span>
+        {datos.fecha}
+      </p>
+      <p className="text-base">
+        <span className="font-bold capitalize">total: </span>
+        {parseInt(datos.total).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        })}
+      </p>
       {botones && (
         <div className="flex justify-between items-center w-full">
           <Link to={`/cliente/orden/editar-orden/?id=${datos.id}`}>
