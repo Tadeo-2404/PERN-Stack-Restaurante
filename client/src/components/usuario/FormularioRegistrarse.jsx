@@ -55,9 +55,9 @@ const FormularioRegistrarse = () => {
 
     try {
       const data = await registrarse({nombre, correo, contrasena, telefono}, tipo);
-      alertify.success(data.msg);
+      alertify.success(data?.msg);
     } catch (error) {
-      alertify.error(error.data.response.msg);
+      alertify.error(error?.data?.response?.msg);
     }
   }
 
