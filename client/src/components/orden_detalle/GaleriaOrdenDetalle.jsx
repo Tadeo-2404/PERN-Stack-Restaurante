@@ -8,6 +8,7 @@ const GaleriaOrdenDetalles = ({ params }) => {
   useEffect(() => {
     const obtenerOrdenesDetalle = async () => {
       const nuevasOrdenDetalle = await obtener_ordenes_detalle(params);
+      console.log("nuevasOrdenDetalle", nuevasOrdenDetalle)
       setOrdenesDetalle(nuevasOrdenDetalle);
     };
     obtenerOrdenesDetalle();

@@ -9,7 +9,7 @@ const TemplateLayout = () => {
   console.log(usuario.rol)
   return (
     <div>
-      {(tipo == "cliente") ? (
+      {(tipo == "cliente" && usuario.rol === "cliente") ? (
         <NavBarCliente/>
       ) : (
         <NavBarAdministrador/>

@@ -97,7 +97,7 @@ const NavBarAdministrador = () => {
       ) : (
           <div className="bg-orange-500 p-6 text-white uppercase font-bold flex justify-center items-center">
             <div>
-              <h1 className="text-2xl">administracion</h1>
+              <h1 className="text-2xl">restaurante</h1>
             </div>
           </div>
       )}

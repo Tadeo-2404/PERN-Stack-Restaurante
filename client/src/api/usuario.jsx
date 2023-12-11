@@ -18,7 +18,8 @@ const iniciar_sesion = async (objeto, tipo) => {
 const registrarse = async (objeto, tipo) => {
     const url = 'registrarse';
     const respuesta = await axios.post(`${urlBackend}/${tipo}/${url}`, objeto,  { withCredentials: true });
-    return respuesta.data;
+    console.log(respuesta)
+    return respuesta;
 }
 
 const confirmar_cuenta = async (token) => {
@@ -32,11 +33,8 @@ const confirmar_cuenta = async (token) => {
 }
 
 const olvide_contrasena = async (objeto, tipo) => {
-    console.log("objeto", objeto)
-    console.log("tipo", tipo)
     const url = 'olvide-contrasena';
     const respuesta = await axios.post(`${urlBackend}/${tipo}/${url}`, objeto,  { withCredentials: true });
-    console.log("respuesta", respuesta)
     return respuesta.data;
 }
 

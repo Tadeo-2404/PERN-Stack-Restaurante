@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import alertify from "alertifyjs";
 import { eliminar_orden } from "../../api/orden";
+import { useContext } from "react";
+import { Context } from "../../context/ContextProvider";
 
 function CardOrden({ datos, botones }) {
+  const { usuario } = useContext(Context);
   const navigate = useNavigate();
   CardOrden.defaultProps = {
     botones: true,
@@ -44,12 +47,12 @@ function CardOrden({ datos, botones }) {
       </p>
       {botones && (
         <div className="flex justify-between items-center w-full">
-          <Link to={`/cliente/orden/editar-orden/?id=${datos.id}`}>
+          <Link to={`/${usuario.rol}/orden/editar-orden/?id=${datos.id}`}>
             <button className="p-2 w-20 bg-blue-600 font-bold outline capitalize text-white hover:scale-90">
               editar
             </button>
           </Link>
-          <Link to={`/cliente/orden/detalle-orden/?id=${datos.id}`}>
+          <Link to={`/${usuario.rol}/orden/detalle-orden/?id=${datos.id}`}>
             <button className="p-2 w-20 bg-green-600 font-bold outline capitalize text-white hover:scale-90">
               detalles
             </button>
